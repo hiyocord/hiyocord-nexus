@@ -1,0 +1,151 @@
+openapi: 3.1.0
+
+info:
+  title: hiyocord Nexus
+  version: 1.0.0
+  description: API documentation for hiyocord Nexus, a service for managing Discord interactions.
+
+servers:
+  - url: https://nexus.hiyocord.org
+    description: Official Production server
+
+paths:
+  /interactions:
+    description: "Discord interaction"
+  /api:
+    description: "APIs used by nexus-web"
+  /manifest:
+    description: "Endpoint to submit manifest from service workers"
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Manifest'
+      responses:
+        '200':
+          description: "ok"
+        '400':
+          description: "Invalid input data"
+        default:
+          description: "Server error"
+
+components:
+  schemas:
+    Manifest:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Manifest_V1'
+      required:
+        - version
+    Manifest_V1:
+      type: object
+      properties:
+        version:
+          type: string
+          description: "Manifest schema version."
+          pattern: "^1\\.[0-9]\\.[0-9]$"
+        id:
+          type: string
+          description: "Unique identifier for the application"
+          example: "nexus.hiyocord.org"
+        name:
+          type: string
+          description: "Name of the application"
+        icon_url:
+          type: string
+          format: uri
+          description: "URL to the application's icon"
+        description:
+          type: string
+          description: "Description of the application"
+        base_url:
+          type: string
+          format: uri
+          description: "Base URL for the application"
+        application_commands:
+          type: object
+          description: "Application commands supported by the application"
+          required:
+            - global
+            - guild
+          properties:
+            global:
+              type: array
+              description: "Global application commands"
+              items:
+                $ref: '#/components/schemas/DiscordCommand'
+            guild:
+              type: array
+              description: "Guild-specific application commands"
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/DiscordCommand'
+                  - type: object
+                    properties:
+                      guild_id:
+                        type: array
+                        description: "List of guild IDs where the command is available"
+                        items:
+                          type: string
+                    required:
+                      - guild_id
+        message_component_ids:
+          type: array
+          items:
+            type: string
+        modal_submit_ids:
+          type: array
+          items:
+            type: string
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Permission"
+      required:
+        - version
+        - id
+        - name
+        - base_url
+        - application_commands
+        - message_component_ids
+        - modal_submit_ids
+
+    Permission:
+      type: string
+      enum:
+        - DISCORD_BOT
+        - DISCORD_OAUTH
+
+    DiscordCommand:
+      type: object
+      allOf:
+        - $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/components/schemas/ApplicationCommandCreateRequest"
+        - type: object
+          properties:
+            defer:
+              type: boolean
+      description: "A Discord application command object"
+
+    DiscordInteraction:
+      description: "A Discord interaction object"
+      type: object
+      properties:
+        type:
+          type: integer
+          description: "Type of interaction"
+        version:
+          type: integer
+          description: "Version of the interaction"
+        application_id:
+          type: string
+          description: "ID of the application"
+        event:
+          type: object
+          description: "Event data"
+          properties:
+            data:
+              type: object
+              description: "Interaction data"

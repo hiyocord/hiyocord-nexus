@@ -1,0 +1,70 @@
+on:
+  push:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+
+env:
+  HIYOCORD_NEXUS_KV_ID: ${{ secrets.HIYOCORD_NEXUS_KV_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+      - run: npm install
+      - name: build
+        run: npm run build
+      - uses: actions/cache/save@v4
+        with:
+          path: packages/**/dist
+          key: dist-${{ github.sha }}
+
+  # test:
+  #   needs:
+  #     - build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v5
+  #     - uses: actions/setup-node@v6
+  #       with:
+  #         node-version: 22
+  #     - uses: actions/cache@v4
+  #       with:
+  #         path: "node_modules"
+  #         key: node_modules-${{ hashFiles('package-lock.json') }}
+  #     - uses: actions/cache/restore@v4
+  #       with:
+  #         path: packages/**/dist
+  #         key: dist-${{ github.sha }}
+  #     - name: test
+  #       run: npm run test
+
+  deploy:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - uses: actions/cache@v4
+        with:
+          path: "node_modules"
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+      - uses: actions/cache/restore@v4
+        with:
+          path: packages/**/dist
+          key: dist-${{ github.sha }}
+      - name: deploy
+        run: npm run deploy
+

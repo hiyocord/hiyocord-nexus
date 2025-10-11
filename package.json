@@ -1,0 +1,27 @@
+{
+  "name": "hiyocord",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "build": "npm run --workspaces build --if-present",
+    "deploy": "npm run --workspaces deploy --if-present",
+    "dev-deploy": "npm run --workspaces dev-deploy --if-present",
+    "test": "npm run --workspaces test --if-present"
+  },
+  "workspaces": [
+    "packages/hiyocord-nexus-types",
+    "packages/hiyocord-nexus",
+    "packages/hiyocord-nexus-web",
+    "packages/hiyocord-nexus-worker"
+  ],
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.13.12",
+    "@cloudflare/workers-types": "^4.20251011.0",
+    "@hiyocord/wrangler-configurer": "^1.0.1",
+    "@types/node": "^24.7.1",
+    "openapi-typescript": "^7.9.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-dts": "^4.5.4"
+  }
+}

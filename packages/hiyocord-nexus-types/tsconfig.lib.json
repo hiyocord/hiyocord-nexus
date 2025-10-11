@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "composite": true,
+
+    // syntax
+    "target": "ES2024",
+    "lib": ["ES2024"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+
+
+    "types": ["@cloudflare/workers-types"],
+
+    // build system
+    "moduleResolution": "bundler",
+
+    // dist
+    "importHelpers": true,
+    "removeComments": true,
+
+    // types
+    "emitDeclarationOnly": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist",
+
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
