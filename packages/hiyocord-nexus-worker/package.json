@@ -1,0 +1,21 @@
+{
+  "name": "@hiyocord/hiyocord-nexus-worker",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "vite dev",
+    "prebuild": "wrangler-configurer generate",
+    "build": "vite build",
+    "predeploy": "wrangler-configurer generate",
+    "deploy": "wrangler deploy",
+    "predev-deploy": "wrangler-configurer generate",
+    "dev-deploy": "wrangler versions upload",
+    "test": "true"
+  },
+  "dependencies": {
+    "@hiyocord/hiyocord-nexus-types": "^1.0.0",
+    "discord-interactions": "^4.4.0",
+    "hono": "^4.9.10"
+  }
+}

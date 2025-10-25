@@ -1,0 +1,9 @@
+{
+  "name": "hiyocord-nexus-web",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "true"
+  },
+  "devDependencies": {}
+}
