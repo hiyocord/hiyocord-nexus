@@ -15,7 +15,7 @@
     "packages/hiyocord-nexus-worker"
   ],
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.13.15",
+    "@cloudflare/vite-plugin": "^1.13.16",
     "@cloudflare/workers-types": "^4.20251014.0",
     "@hiyocord/wrangler-configurer": "^1.0.1",
     "@types/node": "^24.9.1",
