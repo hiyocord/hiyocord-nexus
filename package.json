@@ -12,7 +12,7 @@
     "packages/hiyocord-nexus-types",
     "packages/hiyocord-nexus",
     "packages/hiyocord-nexus-web",
-    "packages/hiyocord-nexus-worker"
+    "packages/hiyocord-nexus-core"
   ],
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.14.0",
