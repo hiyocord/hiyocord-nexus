@@ -16,6 +16,6 @@
   "dependencies": {
     "@hiyocord/hiyocord-nexus-types": "^1.0.0",
     "discord-interactions": "^4.4.0",
-    "hono": "^4.10.3"
+    "hono": "^4.10.4"
   }
 }
