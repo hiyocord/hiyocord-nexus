@@ -1,0 +1,17 @@
+{
+  "name": "@hiyocord/hiyocord-nexus-core",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "build": "vite build",
+    "test": "true"
+  },
+  "dependencies": {
+    "@hiyocord/discord-rest-api": "^2.0.0",
+    "hono": "^4.10.4"
+  }
+}
