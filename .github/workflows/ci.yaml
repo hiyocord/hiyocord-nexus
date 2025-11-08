@@ -13,16 +13,22 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: read
+      contents: read
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
         with:
           node-version: 22
+          registry-url: https://npm.pkg.github.com
       - uses: actions/cache@v4
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('package-lock.json') }}
       - run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: build
         run: npm run build
       - uses: actions/cache/save@v4
