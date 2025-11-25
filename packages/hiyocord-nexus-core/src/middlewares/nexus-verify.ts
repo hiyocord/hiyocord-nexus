@@ -3,11 +3,11 @@ import { verifySignature } from "../authentication";
 
 export const getNexusVerifyMiddleware = (secretEnv: string) => {
   return createMiddleware<{Bindings: {[secretEnv]: string}}>(async (c, next) => {
-    const headerTimestamp = c.req.header("X-Request-Timestamp");
-    const signature = c.req.header("X-Request-Signature");
+    const headerTimestamp = c.req.header("X-Hiyocord-Timestamp");
+    const signature = c.req.header("X-Hiyocord-Signature");
 
     if (!(headerTimestamp && signature)) {
-      return c.status(401);
+      return c.text("Missing required headers", { status: 401 });
     }
 
     const timestamp = new Date().getTime().toString();
@@ -15,7 +15,7 @@ export const getNexusVerifyMiddleware = (secretEnv: string) => {
     const maxAllowedDiff = 60 * 1000; // 1 minutes
 
     if (timeDiff > maxAllowedDiff) {
-      return c.status(401);
+      return c.text("Request timestamp is too old", { status: 401 });
     }
 
     const verify = await verifySignature({
@@ -25,9 +25,11 @@ export const getNexusVerifyMiddleware = (secretEnv: string) => {
     }, signature);
 
     if(verify) {
-      return next();
+      return await next();
     } else {
-      return c.status(401);
+      console.log(JSON.stringify(c.req.header()));
+      console.log(await c.req.parseBody());
+      return c.text("Invalid request signature", { status: 401 });
     }
   })
 };

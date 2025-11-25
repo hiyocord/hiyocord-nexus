@@ -18,6 +18,6 @@
     "src"
   ],
   "devDependencies": {
-    "discord-api-types": "^0.38.32"
+    "discord-api-types": "^0.38.34"
   }
 }

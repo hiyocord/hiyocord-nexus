@@ -60,13 +60,14 @@ const transferRequest = async (
 ) => {
   const headers = new Headers(c.req.header())
   headers.set('Host', new URL(manifest.base_url).host)
+  const body = await c.req.arrayBuffer()
 
   const request = new Request(
     manifest.base_url + "/interactions",
     {
       method: c.req.method,
-      headers: new Headers(await sign(c.env.HIYOCORD_SECRET, c.req.header(), c.req.bodyCache.arrayBuffer)),
-      body: c.req.bodyCache.arrayBuffer
+      headers: new Headers(await sign(c.env.HIYOCORD_SECRET, c.req.header(), body)),
+      body: body
     }
   )
   const response = await fetch(request)

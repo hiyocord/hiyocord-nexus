@@ -18,14 +18,22 @@ const toHex = (buffer: ArrayBuffer) =>{
 }
 
 export const generateSignature = async (input: SignatureInput) => {
-
   const { headers, body, secret } = input;
   const encoder = new TextEncoder();
 
   // ヘッダ canonicalize
   const sortedHeaders = Object.keys(headers)
-    .sort()
-    .map((k) => `${k.toLowerCase()}:${headers[k]}`)
+    .map(it => {
+      return {key: it.toLowerCase(), value: headers[it]}
+    })
+    .sort((a, b) => {
+        if (a.key > b.key) return 1;
+        if (a.key < b.key) return -1;
+        return 0;
+    })
+    .filter(it => !["host", "x-hiyocord-signature", "content-length"].includes(it.key))
+    .filter(it => !it.key.startsWith("cf-"))
+    .map(it => `${it.key}:${it.value}`)
     .join("\n");
 
   const headerBytes = encoder.encode(sortedHeaders);
@@ -47,11 +55,11 @@ export const sign = async (secret: string, headers: Record<string, string>, body
   const timestamp = new Date().getTime().toString();
   headers = {
     ...headers,
-    "X-Request-Timestamp": timestamp,
+    "X-Hiyocord-Timestamp": timestamp,
   };
   return {
     ...headers,
-    "X-Request-Signature": await generateSignature({
+    "X-Hiyocord-Signature": await generateSignature({
         headers: headers,
         body: body ? body : new ArrayBuffer(0),
         secret: secret
