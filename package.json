@@ -10,9 +10,9 @@
   },
   "workspaces": [
     "packages/hiyocord-nexus-types",
+    "packages/hiyocord-nexus-core",
     "packages/hiyocord-nexus",
-    "packages/hiyocord-nexus-web",
-    "packages/hiyocord-nexus-worker"
+    "packages/hiyocord-nexus-web"
   ],
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.14.0",
@@ -23,5 +23,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.2.2",
     "vite-plugin-dts": "^4.5.4"
+  },
+  "dependencies": {
+    "@hiyocord/discord-rest-api": "^2.0.0"
   }
 }

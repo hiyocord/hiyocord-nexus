@@ -7,6 +7,7 @@ export type HonoEnv = {
     DISCORD_BOT_TOKEN: string;
     DISCORD_CLIENT_SECRET: string;
     DISCORD_PUBLIC_KEY: string;
+    HIYOCORD_SECRET: string;
   }
 }
 
