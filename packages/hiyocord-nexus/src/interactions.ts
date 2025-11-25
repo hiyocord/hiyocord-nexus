@@ -2,6 +2,7 @@ import { AppType, HonoEnv } from "./types";
 import { APIApplicationCommandAutocompleteInteraction, APIApplicationCommandInteraction, APIInteraction, APIMessageComponentInteraction, APIModalSubmitInteraction, InteractionType } from "discord-api-types/v10";
 import { Context } from "hono";
 import { Manifest } from "@hiyocord/hiyocord-nexus-types";
+import { sign } from "@hiyocord/hiyocord-nexus-core";
 import verify from "./verify";
 import { getManifest } from "./manifest";
 
@@ -38,13 +39,6 @@ const getModalSubmitManifest = (body: APIModalSubmitInteraction, manifests: Mani
 }
 
 const findManifest = async (c: Context<HonoEnv, "/interactions", {}>, body: APIInteraction) => {
-  // TODO KVから取得する
-  // const manifest = await c.env.KV.get("manifest");
-  // if(manifest == null) {
-  //   return [];
-  // }
-
-  // mock
   const manifests = await getManifest(c)
 
   switch (body.type) {
@@ -62,18 +56,16 @@ const findManifest = async (c: Context<HonoEnv, "/interactions", {}>, body: APII
 
 const transferRequest = async (
   c: Context<HonoEnv, "/interactions", {}>,
-  manifest: Manifest,
-  body: APIInteraction
+  manifest: Manifest
 ) => {
-  const header = c.req.header();
-  const headers = new Headers(header)
+  const headers = new Headers(c.req.header())
   headers.set('Host', new URL(manifest.base_url).host)
 
   const request = new Request(
     manifest.base_url + "/interactions",
     {
       method: c.req.method,
-      headers: headers,
+      headers: new Headers(await sign(c.env.HIYOCORD_SECRET, c.req.header(), c.req.bodyCache.arrayBuffer)),
       body: c.req.bodyCache.arrayBuffer
     }
   )
@@ -106,12 +98,12 @@ export default (app: AppType) => {
 
     if(body.type == InteractionType.ApplicationCommand) {
       if(command?.defer??true) {
-        c.executionCtx.waitUntil(transferRequest(c, manifest, body));
+        c.executionCtx.waitUntil(transferRequest(c, manifest));
       } else {
-        return c.json(await transferRequest(c, manifest, body))
+        return c.json(await transferRequest(c, manifest))
       }
     } else {
-      c.executionCtx.waitUntil(transferRequest(c, manifest, body));
+      c.executionCtx.waitUntil(transferRequest(c, manifest));
     }
     return c.json({"type": 5});
   });
