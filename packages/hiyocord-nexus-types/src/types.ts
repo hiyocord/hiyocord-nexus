@@ -124,16 +124,14 @@ export interface components {
                     guild_id: string[];
                 })[];
             };
-            message_component_ids?: string[];
-            modal_submit_ids?: string[];
+            message_component_ids: string[];
+            modal_submit_ids: string[];
             permissions?: components["schemas"]["Permission"][];
         };
         /** @enum {string} */
         Permission: "DISCORD_BOT" | "DISCORD_OAUTH";
         /** @description A Discord application command object */
-        DiscordCommand: components["schemas"]["ApplicationCommandCreateRequest"] & {
-            defer?: boolean;
-        };
+        DiscordCommand: components["schemas"]["ApplicationCommandCreateRequest"];
         /** @description A Discord interaction object */
         DiscordInteraction: {
             /** @description Type of interaction */

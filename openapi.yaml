@@ -123,10 +123,6 @@ components:
       type: object
       allOf:
         - $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/components/schemas/ApplicationCommandCreateRequest"
-        - type: object
-          properties:
-            defer:
-              type: boolean
       description: "A Discord application command object"
 
     DiscordInteraction:
