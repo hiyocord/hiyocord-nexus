@@ -5,6 +5,7 @@ import { Manifest } from "@hiyocord/hiyocord-nexus-types";
 import { sign } from "@hiyocord/hiyocord-nexus-core";
 import verify from "./verify";
 import { getManifest } from "./manifest";
+import { StatusCode } from "hono/utils/http-status";
 
 type ApplicationCmdInteraction = APIApplicationCommandInteraction | APIApplicationCommandAutocompleteInteraction
 const getApplicationCmdManifest = (body: ApplicationCmdInteraction, manifests: Manifest[]) => {
@@ -14,7 +15,7 @@ const getApplicationCmdManifest = (body: ApplicationCmdInteraction, manifests: M
           .filter(cmd => cmd.guild_id.includes(body.guild?.id!))
           .find(cmd => body.data.name === cmd.name)
       if(command) {
-        return {manifest: it, command};
+        return it;
       }
     }
   }
@@ -23,11 +24,11 @@ const getApplicationCmdManifest = (body: ApplicationCmdInteraction, manifests: M
   for(const it of manifests) {
     const command = it.application_commands.global.find(cmd => body.data.name === cmd.name);
     if(command) {
-        return {manifest: it, command};
+        return it;
     }
   }
 
-  return {manifest: null, command: null};
+  return null;
 }
 
 const getMessageComponentManifest = (body: APIMessageComponentInteraction, manifests: Manifest[]) => {
@@ -46,11 +47,11 @@ const findManifest = async (c: Context<HonoEnv, "/interactions", {}>, body: APII
     case InteractionType.ApplicationCommandAutocomplete:
       return getApplicationCmdManifest(body, manifests);
     case InteractionType.MessageComponent:
-      return  {manifest: getMessageComponentManifest(body, manifests), command: null};
+      return getMessageComponentManifest(body, manifests);
     case InteractionType.ModalSubmit:
-      return {manifest: getModalSubmitManifest(body, manifests), command: null};
+      return getModalSubmitManifest(body, manifests);
     default:
-      throw new Error("");
+      throw new Error("unknown interaction type");
   }
 }
 
@@ -72,7 +73,7 @@ const transferRequest = async (
   )
   const response = await fetch(request)
   if(response.ok) {
-    return await response.json()
+    return response
   } else {
     console.log(await response.text())
     throw new Error("");
@@ -80,33 +81,29 @@ const transferRequest = async (
 }
 
 export default (app: AppType) => {
-  app.all("/test/interactions", async (c) => {
-    console.log(JSON.stringify(c.req.json()))
-    return c.json({message: "ok"});
-  })
-
   app.post("/interactions", verify, async (c) => {
     const body = await c.req.json() as APIInteraction;
     if(body.type === InteractionType.Ping) {
       return c.json({ type: 1 });
     }
 
-    const {manifest, command} = await findManifest(c, body);
+    const manifest = await findManifest(c, body);
 
-    if(!manifest) {
-      return c.json({"type": 5});
-    }
-
-    if(body.type == InteractionType.ApplicationCommand) {
-      if(command?.defer??true) {
-        c.executionCtx.waitUntil(transferRequest(c, manifest));
-      } else {
-        return c.json(await transferRequest(c, manifest))
-      }
+    if(manifest) {
+      const response = await transferRequest(c, manifest);
+      c.status(response.status as StatusCode);
+      response.headers.forEach((value, key) => {
+        c.header(key, value);
+      })
+      return c.body(await response.arrayBuffer());
     } else {
-      c.executionCtx.waitUntil(transferRequest(c, manifest));
+      return await c.json({
+        type: 4,
+        data: {
+          content: "This interaction is not registered in Hiyocord Nexus."
+        }
+      });
     }
-    return c.json({"type": 5});
   });
 }
 
