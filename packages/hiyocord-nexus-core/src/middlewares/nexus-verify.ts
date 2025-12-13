@@ -1,5 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import { verifySignature } from "../authentication";
+import { cloneRawRequest } from "hono/request";
 
 export const getNexusVerifyMiddleware = (secretEnv: string) => {
   return createMiddleware<{Bindings: {[secretEnv]: string}}>(async (c, next) => {
@@ -20,15 +21,13 @@ export const getNexusVerifyMiddleware = (secretEnv: string) => {
 
     const verify = await verifySignature({
       headers: c.req.header(),
-      body: await c.req.arrayBuffer(),
+      body: await (await cloneRawRequest(c.req)).arrayBuffer(),
       secret: c.env[secretEnv]
     }, signature);
 
     if(verify) {
       return await next();
     } else {
-      console.log(JSON.stringify(c.req.header()));
-      console.log(await c.req.parseBody());
       return c.text("Invalid request signature", { status: 401 });
     }
   })

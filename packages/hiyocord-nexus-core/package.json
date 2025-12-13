@@ -1,19 +1,24 @@
 {
   "name": "@hiyocord/hiyocord-nexus-core",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
-  "license": "ISC",
+  "license": "MIT",
   "author": "",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist",
+    "package.json"
+  ],
   "scripts": {
     "build": "vite build",
     "test": "true"
   },
   "dependencies": {
     "@hiyocord/discord-rest-api": "^2.0.0",
-    "@hiyocord/hiyocord-nexus-types": "^1.0.0",
+    "@hiyocord/hiyocord-nexus-types": "^0.0.0",
     "hono": "^4.10.7"
   }
 }
