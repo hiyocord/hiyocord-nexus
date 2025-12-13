@@ -19,6 +19,6 @@
   "dependencies": {
     "@hiyocord/discord-rest-api": "^2.0.0",
     "@hiyocord/hiyocord-nexus-types": "^0.0.0",
-    "hono": "^4.10.7"
+    "hono": "^4.11.0"
   }
 }
