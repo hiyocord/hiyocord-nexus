@@ -25,7 +25,7 @@ const getCommandObject = (manifests: Manifest[]) => {
   const guildCmd = guildId.reduce((pre, it) => {
     const commands = guildCmdManifest.filter(cmd => cmd.guild_id.includes(it))
     commands.map(cmd => {
-      const {defer, guild_id, ...request} = cmd
+      const { guild_id, ...request} = cmd
       return request
     })
     return {...pre, [it]: commands}
@@ -33,10 +33,6 @@ const getCommandObject = (manifests: Manifest[]) => {
 
   const globalCmd = manifests.map(it => it.application_commands.global)
       .filter(it => it.length !== 0).flat()
-      .map(it => {
-        const {defer, ...request} = it
-        return request
-      })
 
   return {
     global: globalCmd,
@@ -62,7 +58,7 @@ const registerCommandSet = async (
     console.log(`✅ Registered ${commands.length} command(s) to ${url}`);
   } else {
     const text = await res.text();
-    console.error(`❌ Failed to register commands (${url}): ${res.status} ${text}`);
+    console.error(`❌ Failed to register commands ${JSON.stringify(commands)} (${url}): ${res.status} ${text}`);
   }
 }
 
@@ -81,13 +77,20 @@ export default (app: AppType) => {
     const o = await getManifest(c);
     const manifests = await mergeManifest(o, await c.req.json())
     await c.env.KV.put("manifests", JSON.stringify(manifests));
+
     c.executionCtx.waitUntil((async () => {
       const baseUrl = `https://discord.com/api/v10/applications/${c.env.DISCORD_APPLICATION_ID}`
-      const {global, guild} = getCommandObject(manifests)
-      await registerCommandSet(baseUrl, global, c.env.DISCORD_BOT_TOKEN);
+
+      const { global, guild } = getCommandObject(manifests)
+
+      // register global
+      await registerCommandSet(`${baseUrl}/commands`, global, c.env.DISCORD_BOT_TOKEN);
+
+      // register guild
       const req = Object.keys(guild).map(k => registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k], c.env.DISCORD_BOT_TOKEN))
       await Promise.all(req) // TODO wait?
     })())
+
     return c.json({}, 200)
   })
 }
