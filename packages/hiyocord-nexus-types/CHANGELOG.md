@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-types
 
+## 0.0.2
+
+### Patch Changes
+
+- [`d61d14c`](https://github.com/hiyocord/hiyocord-nexus/commit/d61d14c8918cbe4ffb41615beee7d5f020e2326b) Thanks [@kurages](https://github.com/kurages)! - tsconfig 共通化
+
 ## 0.0.1
 
 ### Patch Changes
