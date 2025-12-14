@@ -19,12 +19,14 @@
     "@changesets/cli": "^2.29.8",
     "@cloudflare/vite-plugin": "^1.17.1",
     "@cloudflare/workers-types": "^4.20251128.0",
+    "@hiyocord/tsconfig": "^0.0.1",
     "@hiyocord/wrangler-configurer": "^1.0.1",
     "@types/node": "^25.0.1",
     "openapi-typescript": "^7.10.1",
     "typescript": "^5.9.3",
     "vite": "^7.2.7",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
     "@hiyocord/discord-rest-api": "^2.0.0"

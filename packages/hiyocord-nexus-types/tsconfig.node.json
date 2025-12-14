@@ -1,23 +1,12 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "@hiyocord/tsconfig/node/tsconfig.json",
+  ],
   "compilerOptions": {
-    "composite": true,
-    "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
-    "moduleResolution": "bundler",
-    "module": "esnext",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "rootDir": "${configDir}/src",
+    "baseUrl": "${configDir}/src"
   },
   "include": [
-    "vite.config.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
+    "src/**/*"
   ]
 }
