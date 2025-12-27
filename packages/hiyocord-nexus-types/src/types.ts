@@ -128,8 +128,29 @@ export interface components {
             modal_submit_ids: string[];
             permissions?: components["schemas"]["Permission"][];
         };
-        /** @enum {string} */
-        Permission: "DISCORD_BOT" | "DISCORD_OAUTH";
+        Permission: ("DISCORD_BOT" | "DISCORD_OAUTH") | {
+            /** @constant */
+            type: "DISCORD_API_SCOPE";
+            /**
+             * @description 許可するDiscord APIエンドポイントとHTTPメソッドの組み合わせ
+             * @example {
+             *       "/channels/{channel_id}/messages": [
+             *         "POST"
+             *       ],
+             *       "/channels/{channel_id}/messages/{message_id}": [
+             *         "GET",
+             *         "PATCH",
+             *         "DELETE"
+             *       ],
+             *       "/guilds/{guild_id}/members/{user_id}": [
+             *         "GET"
+             *       ]
+             *     }
+             */
+            scopes: {
+                [key: string]: string[];
+            };
+        };
         /** @description A Discord application command object */
         DiscordCommand: components["schemas"]["ApplicationCommandCreateRequest"];
         /** @description A Discord interaction object */

@@ -114,10 +114,30 @@ components:
         - modal_submit_ids
 
     Permission:
-      type: string
-      enum:
-        - DISCORD_BOT
-        - DISCORD_OAUTH
+      oneOf:
+        - type: string
+          enum:
+            - DISCORD_BOT
+            - DISCORD_OAUTH
+        - type: object
+          properties:
+            type:
+              type: string
+              const: DISCORD_API_SCOPE
+            scopes:
+              type: object
+              description: "許可するDiscord APIエンドポイントとHTTPメソッドの組み合わせ"
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              example:
+                "/channels/{channel_id}/messages": ["POST"]
+                "/channels/{channel_id}/messages/{message_id}": ["GET", "PATCH", "DELETE"]
+                "/guilds/{guild_id}/members/{user_id}": ["GET"]
+          required:
+            - type
+            - scopes
 
     DiscordCommand:
       type: object

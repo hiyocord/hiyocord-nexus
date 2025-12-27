@@ -19,6 +19,10 @@ export const getNexusVerifyMiddleware = (secretEnv: string) => {
       return c.text("Request timestamp is too old", { status: 401 });
     }
 
+    if(!c.env[secretEnv]) {
+      throw new Error("secretEnv is undefined");
+    }
+
     const verify = await verifySignature({
       headers: c.req.header(),
       body: await (await cloneRawRequest(c.req)).arrayBuffer(),

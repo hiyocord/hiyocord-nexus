@@ -8,6 +8,7 @@ export type HonoEnv = {
     DISCORD_CLIENT_SECRET: string;
     DISCORD_PUBLIC_KEY: string;
     HIYOCORD_SECRET: string;
+    JWT_SECRET: string;
   }
 }
 
