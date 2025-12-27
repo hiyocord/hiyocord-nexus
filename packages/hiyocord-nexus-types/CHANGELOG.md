@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-types
 
+## 0.1.0
+
+### Minor Changes
+
+- [#30](https://github.com/hiyocord/hiyocord-nexus/pull/30) [`dfb6395`](https://github.com/hiyocord/hiyocord-nexus/commit/dfb63955dc0e07b5db1b8852311869d79c66b9a6) Thanks [@kurages](https://github.com/kurages)! - discord rest api proxy
+
 ## 0.0.2
 
 ### Patch Changes
