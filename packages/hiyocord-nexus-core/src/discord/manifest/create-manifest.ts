@@ -54,7 +54,7 @@ export function createManifest(
   );
 
   return {
-    version: "v1.0.0",
+    version: "1.0.0",
     id: options.id,
     name: options.name,
     base_url: options.baseUrl,
