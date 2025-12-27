@@ -6,6 +6,7 @@ import { sign } from "@hiyocord/hiyocord-nexus-core";
 import verify from "./verify";
 import { getManifest } from "./manifest";
 import { StatusCode } from "hono/utils/http-status";
+import { issueJWT } from "./jwt";
 
 type ApplicationCmdInteraction = APIApplicationCommandInteraction | APIApplicationCommandAutocompleteInteraction
 const getApplicationCmdManifest = (body: ApplicationCmdInteraction, manifests: Manifest[]) => {
@@ -57,17 +58,37 @@ const findManifest = async (c: Context<HonoEnv, "/interactions", {}>, body: APII
 
 const transferRequest = async (
   c: Context<HonoEnv, "/interactions", {}>,
-  manifest: Manifest
+  manifest: Manifest,
+  interactionId: string
 ) => {
   const headers = new Headers(c.req.header())
   headers.set('Host', new URL(manifest.base_url).host)
   const body = await c.req.arrayBuffer()
 
+  // JWT発行（有効期限15秒）
+  const jwt = await issueJWT(
+    c.env.JWT_SECRET,
+    manifest.id,
+    interactionId,
+    15
+  );
+
+  // HMAC署名ヘッダーを追加
+  const signedHeaders = await sign(c.env.HIYOCORD_SECRET, c.req.header(), body);
+
+  // Authorizationヘッダーを追加
+  headers.set('Authorization', `Bearer ${jwt}`);
+
+  // その他の署名ヘッダーをコピー
+  for (const [key, value] of Object.entries(signedHeaders)) {
+    headers.set(key, value);
+  }
+
   const request = new Request(
     manifest.base_url + "/interactions",
     {
       method: c.req.method,
-      headers: new Headers(await sign(c.env.HIYOCORD_SECRET, c.req.header(), body)),
+      headers: headers,
       body: body
     }
   )
@@ -90,7 +111,7 @@ export default (app: AppType) => {
     const manifest = await findManifest(c, body);
 
     if(manifest) {
-      const response = await transferRequest(c, manifest);
+      const response = await transferRequest(c, manifest, body.id);
       c.status(response.status as StatusCode);
       response.headers.forEach((value, key) => {
         c.header(key, value);
