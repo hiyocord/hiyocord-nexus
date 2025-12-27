@@ -1,6 +1,6 @@
 {
   "name": "@hiyocord/hiyocord-nexus-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "license": "MIT",
   "author": "",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@hiyocord/discord-interaction-client": "^0.2.0",
     "@hiyocord/discord-rest-api": "^2.0.0",
-    "@hiyocord/hiyocord-nexus-types": "^0.1.0",
+    "@hiyocord/hiyocord-nexus-types": "^0.2.0",
     "hono": "^4.11.3"
   }
 }

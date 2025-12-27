@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-types
 
+## 0.2.0
+
+### Minor Changes
+
+- [#34](https://github.com/hiyocord/hiyocord-nexus/pull/34) [`10c8918`](https://github.com/hiyocord/hiyocord-nexus/commit/10c89182cbad2cc8f474396c432ff4cae7ff3e88) Thanks [@kurages](https://github.com/kurages)! - manifest builder を追加
+
 ## 0.1.0
 
 ### Minor Changes
