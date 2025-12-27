@@ -17,6 +17,6 @@
     "@hiyocord/hiyocord-nexus-core": "^0.0.2",
     "@hiyocord/hiyocord-nexus-types": "^0.0.2",
     "discord-interactions": "^4.4.0",
-    "hono": "^4.11.1"
+    "hono": "^4.11.3"
   }
 }
