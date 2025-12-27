@@ -54,7 +54,9 @@ components:
           type: string
           description: "Name of the application"
         icon_url:
-          type: string
+          type:
+            - string
+            - "null"
           format: uri
           description: "URL to the application's icon"
         description:

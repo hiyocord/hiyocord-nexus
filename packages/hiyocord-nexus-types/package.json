@@ -1,6 +1,6 @@
 {
   "name": "@hiyocord/hiyocord-nexus-types",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "license": "MIT",
   "author": "",
@@ -9,6 +9,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "true",
+    "prebuild": "npm run openapi",
     "build": "vite build",
     "watch": "vite build --watch",
     "openapi": "openapi-typescript ../../openapi.yaml --output ./src/types.ts"

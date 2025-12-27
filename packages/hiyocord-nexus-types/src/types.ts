@@ -106,7 +106,7 @@ export interface components {
              * Format: uri
              * @description URL to the application's icon
              */
-            icon_url?: string;
+            icon_url?: string | null;
             /** @description Description of the application */
             description?: string;
             /**
