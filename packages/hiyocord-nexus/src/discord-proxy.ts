@@ -86,21 +86,7 @@ export default (app: AppType) => {
       );
     }
 
-    // Authorization: Bot 形式は拒否
-    if (authHeader.startsWith("Bot ")) {
-      return c.json(
-        {
-          error:
-            "Bot token authentication is not allowed. Use JWT authentication.",
-        },
-        {
-          status: 403
-        }
-      );
-    }
-
-    // Authorization: Bearer 形式のJWT検証
-    if (!authHeader.startsWith("Bearer ")) {
+    if (!authHeader.startsWith("Bot ")) {
       return c.json(
         { error: "Invalid authorization header format. Expected: Bearer {JWT}" },
         {
@@ -109,7 +95,7 @@ export default (app: AppType) => {
       );
     }
 
-    const jwt = authHeader.substring(7); // "Bearer " を除去
+    const jwt = authHeader.substring(4); // "Bot " を除去
 
     // JWT検証
     let jwtPayload;
