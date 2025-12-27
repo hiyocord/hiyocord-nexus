@@ -20,7 +20,7 @@ export const getNexusVerifyMiddleware = (secretEnv: string) => {
     }
 
     if(!c.env[secretEnv]) {
-      throw new Error(`${secretEnv} is undefined`)
+      throw new Error("secretEnv is undefined");
     }
 
     const verify = await verifySignature({

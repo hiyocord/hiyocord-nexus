@@ -3,7 +3,6 @@ import { Context } from "hono";
 import { getManifest } from "./manifest";
 import { Manifest } from "@hiyocord/hiyocord-nexus-types";
 import { verifyJWT } from "./jwt";
-import { StatusCode } from "hono/utils/http-status";
 
 /**
  * 権限チェック
