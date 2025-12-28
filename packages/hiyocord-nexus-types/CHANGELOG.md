@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-types
 
+## 0.3.0
+
+### Minor Changes
+
+- [#35](https://github.com/hiyocord/hiyocord-nexus/pull/35) [`3b35fea`](https://github.com/hiyocord/hiyocord-nexus/commit/3b35fea5ea460ee9ffa91df2ecd2231f7668e6ed) Thanks [@kurages](https://github.com/kurages)! - いろいろ
+
 ## 0.2.0
 
 ### Minor Changes
