@@ -1,4 +1,6 @@
+import type { KVNamespace } from '@cloudflare/workers-types';
 import { Hono } from "hono";
+import { JWTPayload } from './jwt';
 
 export type HonoEnv = {
   Bindings: {
@@ -9,6 +11,9 @@ export type HonoEnv = {
     DISCORD_PUBLIC_KEY: string;
     HIYOCORD_SECRET: string;
     JWT_SECRET: string;
+  },
+  Variables: {
+    payload: JWTPayload
   }
 }
 

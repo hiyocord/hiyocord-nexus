@@ -128,7 +128,10 @@ export interface components {
             modal_submit_ids: string[];
             permissions?: components["schemas"]["Permission"][];
         };
-        Permission: ("DISCORD_BOT" | "DISCORD_OAUTH") | {
+        Permission: {
+            /** @enum {string} */
+            type: "DISCORD_BOT";
+        } | {
             /** @constant */
             type: "DISCORD_API_SCOPE";
             /**
