@@ -8,7 +8,7 @@ import { InteractionTransfer } from "../infrastructure/service-workers";
 export const InteractionTransferService = async (ctx: ApplicationContext, request: Request, interaction: APIInteraction) => {
   const manifestStore = ManifestStore(ctx);
   const manifests = await manifestStore.findAll();
-  const manifest = ManifestResolver(manifests, interaction).byInteraction();
+  const manifest = ManifestResolver(manifests).byInteraction(interaction);
 
   if(manifest) {
     return await InteractionTransfer(ctx).transfer(manifest, interaction, request);
