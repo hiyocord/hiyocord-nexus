@@ -117,10 +117,14 @@ components:
 
     Permission:
       oneOf:
-        - type: string
-          enum:
-            - DISCORD_BOT
-            - DISCORD_OAUTH
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - DISCORD_BOT
         - type: object
           properties:
             type:

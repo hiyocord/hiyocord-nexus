@@ -1,5 +1,5 @@
-import { Context } from "hono";
-import { AppType, HonoEnv } from "./types";
+import { Context, Hono } from "hono";
+import { HonoEnv } from "../../types";
 import type { DiscordCommand, Manifest } from '@hiyocord/hiyocord-nexus-types';
 
 const migrateManifest = (manifest: Manifest) => {
@@ -21,6 +21,7 @@ const getCommandObject = (manifests: Manifest[]) => {
   const guildCmdManifest = manifests.map(it => it.application_commands.guild)
       .filter(it => it.length !== 0)
       .flat()
+
   const guildId = Array.from(new Set(guildCmdManifest.map(it => it.guild_id).flat()))
   const guildCmd = guildId.reduce((pre, it) => {
     const commands = guildCmdManifest.filter(cmd => cmd.guild_id.includes(it))
@@ -32,7 +33,8 @@ const getCommandObject = (manifests: Manifest[]) => {
   }, {} as {[k: string]: DiscordCommand[]})
 
   const globalCmd = manifests.map(it => it.application_commands.global)
-      .filter(it => it.length !== 0).flat()
+      .filter(it => it.length !== 0)
+      .flat()
 
   return {
     global: globalCmd,
@@ -72,7 +74,8 @@ export const getManifest = async (c: Context<HonoEnv>) => {
   }
 }
 
-export default (app: AppType) => {
+
+export default (app: Hono<HonoEnv>) => {
   app.post("/manifest", async (c) => {
     const o = await getManifest(c);
     const manifests = await mergeManifest(o, await c.req.json())
@@ -87,7 +90,7 @@ export default (app: AppType) => {
       await registerCommandSet(`${baseUrl}/commands`, global, c.env.DISCORD_BOT_TOKEN);
 
       // register guild
-      const req = Object.keys(guild).map(k => registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k], c.env.DISCORD_BOT_TOKEN))
+      const req = Object.keys(guild).map(k => registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, c.env.DISCORD_BOT_TOKEN))
       await Promise.all(req) // TODO wait?
     })())
 

@@ -35,7 +35,7 @@ export function createManifest(
   const handlers: (ApplicationCommandHandler | DeferredApplicationCommandHandler)[] = registry.get(InteractionType.ApplicationCommand);
 
   // Convert handlers to Nexus command definitions
-  const globalCommands = handlers.filter(it => !it.guildIds).map(
+  const globalCommands = handlers.filter(it => it.guildIds.length == 0).map(
     it => {
       return {
         name: it.name,
@@ -43,7 +43,7 @@ export function createManifest(
       } satisfies Manifest["application_commands"]["global"][number];
     },
   );
-  const guildCommands = handlers.filter(it => it.guildIds).map(
+  const guildCommands = handlers.filter(it => it.guildIds.length > 0).map(
     it => {
       return {
         name: it.name,
