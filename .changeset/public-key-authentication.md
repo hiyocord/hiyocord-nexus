@@ -1,14 +1,13 @@
 ---
-"@hiyocord/hiyocord-nexus-types": major
-"@hiyocord/hiyocord-nexus-core": major
-"@hiyocord/hiyocord-nexus": major
+"@hiyocord/hiyocord-nexus-types": minor
+"@hiyocord/hiyocord-nexus-core": minor
 ---
 
 # Replace HMAC with Ed25519 Public Key Authentication
 
 ## Breaking Changes
 
-This is a **major breaking change** that replaces the symmetric HMAC-based authentication with asymmetric Ed25519 public key cryptography for Nexus-ServiceWorker communication.
+This is a **minor breaking change** that replaces the symmetric HMAC-based authentication with asymmetric Ed25519 public key cryptography for Nexus-ServiceWorker communication.
 
 ### What Changed
 
