@@ -13,8 +13,7 @@
     "package.json"
   ],
   "scripts": {
-    "build": "vite build",
-    "test": "true"
+    "build": "vite build"
   },
   "dependencies": {
     "@hiyocord/discord-interaction-client": "^0.2.0",

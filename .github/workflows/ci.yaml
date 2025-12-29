@@ -36,29 +36,30 @@ jobs:
           path: packages/**/dist
           key: dist-${{ github.sha }}
 
-  # test:
-  #   needs:
-  #     - build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - uses: actions/setup-node@v6
-  #       with:
-  #         node-version: 22
-  #     - uses: actions/cache@v5
-  #       with:
-  #         path: "node_modules"
-  #         key: node_modules-${{ hashFiles('package-lock.json') }}
-  #     - uses: actions/cache/restore@v5
-  #       with:
-  #         path: packages/**/dist
-  #         key: dist-${{ github.sha }}
-  #     - name: test
-  #       run: npm run test
+  test:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - uses: actions/cache@v5
+        with:
+          path: "node_modules"
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+      - uses: actions/cache/restore@v5
+        with:
+          path: packages/**/dist
+          key: dist-${{ github.sha }}
+      - name: test
+        run: npm run test
 
   deploy:
     needs:
       - build
+      - test
     runs-on: ubuntu-latest
     if: github.ref_name == github.event.repository.default_branch
     steps:
@@ -90,6 +91,7 @@ jobs:
   publish:
     needs:
       - build
+      - test
     runs-on: ubuntu-latest
     if: github.ref_name == github.event.repository.default_branch
     permissions:

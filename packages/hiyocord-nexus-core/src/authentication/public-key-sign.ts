@@ -43,11 +43,12 @@ export const canonicalizeHeaders = (headers: Record<string, string>): string => 
 /**
  * Create signing payload from headers and body
  */
-export const createSigningPayload = (headers: Record<string, string>, body: ArrayBuffer): ArrayBuffer => {
+export const createSigningPayload = (headers: Record<string, string>, body: ArrayBuffer | undefined): ArrayBuffer => {
   const encoder = new TextEncoder();
   const canonicalHeaders = canonicalizeHeaders(headers);
   const headerBytes = encoder.encode(canonicalHeaders);
-  return concatBuffers([headerBytes, new Uint8Array(body)]).buffer;
+  const bodyBuffer = body ?? new ArrayBuffer(0);
+  return concatBuffers([headerBytes, new Uint8Array(bodyBuffer)]).buffer;
 };
 
 /**
@@ -85,21 +86,22 @@ export const signRequest = async (
 
 /**
  * Verify request signature with public key
+ * @param algorithm Algorithm name (e.g., "ed25519")
  * @param publicKey Base64-encoded public key
- * @param headers Request headers (must include X-Hiyocord-Signature, X-Hiyocord-Algorithm, X-Hiyocord-Timestamp)
+ * @param headers Request headers (must include X-Hiyocord-Signature, X-Hiyocord-Timestamp)
  * @param body Request body
  * @returns true if signature is valid
  */
 export const verifyRequest = async (
+  algorithm: AlgorithmName,
   publicKey: string,
   headers: Record<string, string>,
-  body: ArrayBuffer
+  body: ArrayBuffer | undefined
 ): Promise<boolean> => {
   const signature = headers['x-hiyocord-signature'] || headers['X-Hiyocord-Signature'];
-  const algorithmName = headers['x-hiyocord-algorithm'] || headers['X-Hiyocord-Algorithm'];
   const timestamp = headers['x-hiyocord-timestamp'] || headers['X-Hiyocord-Timestamp'];
 
-  if (!signature || !algorithmName || !timestamp) {
+  if (!signature || !timestamp) {
     return false;
   }
 
@@ -111,8 +113,9 @@ export const verifyRequest = async (
   }
 
   try {
-    const payload = createSigningPayload(headers, body);
-    const algo = getAlgorithm(algorithmName as AlgorithmName);
+    const bodyBuffer = body ?? new ArrayBuffer(0);
+    const payload = createSigningPayload(headers, bodyBuffer);
+    const algo = getAlgorithm(algorithm);
     return await algo.verify(publicKey, signature, payload);
   } catch {
     return false;

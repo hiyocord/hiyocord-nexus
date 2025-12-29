@@ -37,6 +37,7 @@ export const verifyServiceWorker = createMiddleware<HonoEnv>(async (c, next) => 
 
     // 3. Verify signature with service worker's public key
     const verified = await verifyRequest(
+      manifest.signature_algorithm,
       manifest.public_key,
       c.req.header(),
       await (await cloneRawRequest(c.req)).arrayBuffer()

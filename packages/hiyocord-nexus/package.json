@@ -10,8 +10,7 @@
     "predeploy": "wrangler-configurer generate",
     "deploy": "wrangler deploy",
     "predev-deploy": "wrangler-configurer generate",
-    "dev-deploy": "wrangler versions upload",
-    "test": "true"
+    "dev-deploy": "wrangler versions upload"
   },
   "dependencies": {
     "@hiyocord/hiyocord-nexus-core": "^0.4.0",

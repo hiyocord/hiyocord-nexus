@@ -196,15 +196,15 @@ export interface components {
             /**
              * @description 許可するDiscord APIエンドポイントとHTTPメソッドの組み合わせ
              * @example {
-             *       "/channels/{channel_id}/messages": [
+             *       "/channels/:channel_id/messages": [
              *         "POST"
              *       ],
-             *       "/channels/{channel_id}/messages/{message_id}": [
+             *       "/channels/:channel_id/messages/:message_id": [
              *         "GET",
              *         "PATCH",
              *         "DELETE"
              *       ],
-             *       "/guilds/{guild_id}/members/{user_id}": [
+             *       "/guilds/:guild_id/members/:user_id": [
              *         "GET"
              *       ]
              *     }

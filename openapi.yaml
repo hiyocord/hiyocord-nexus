@@ -180,9 +180,9 @@ components:
                 items:
                   type: string
               example:
-                "/channels/{channel_id}/messages": ["POST"]
-                "/channels/{channel_id}/messages/{message_id}": ["GET", "PATCH", "DELETE"]
-                "/guilds/{guild_id}/members/{user_id}": ["GET"]
+                "/channels/:channel_id/messages": ["POST"]
+                "/channels/:channel_id/messages/:message_id": ["GET", "PATCH", "DELETE"]
+                "/guilds/:guild_id/members/:user_id": ["GET"]
           required:
             - type
             - scopes

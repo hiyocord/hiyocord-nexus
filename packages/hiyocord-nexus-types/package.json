@@ -8,7 +8,6 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "true",
     "prebuild": "npm run openapi",
     "build": "vite build",
     "watch": "vite build --watch",

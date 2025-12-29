@@ -24,6 +24,7 @@ export const getNexusVerifyMiddleware = (publicKeyEnv: string) => {
     }
 
     const verify = await verifyRequest(
+      algorithm as any,
       publicKey,
       c.req.header(),
       await (await cloneRawRequest(c.req)).arrayBuffer()

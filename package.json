@@ -6,7 +6,9 @@
     "build": "npm run --workspaces build --if-present",
     "deploy": "npm run --workspaces deploy --if-present",
     "dev-deploy": "npm run --workspaces dev-deploy --if-present",
-    "test": "npm run --workspaces test --if-present"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "workspaces": [
     "packages/hiyocord-nexus-types",
@@ -26,7 +28,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
     "vite-plugin-dts": "^4.5.4",
-    "vite-tsconfig-paths": "^6.0.3"
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "@hiyocord/discord-rest-api": "^2.0.0"
