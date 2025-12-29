@@ -14,8 +14,8 @@
     "test": "true"
   },
   "dependencies": {
-    "@hiyocord/hiyocord-nexus-core": "^0.3.0",
-    "@hiyocord/hiyocord-nexus-types": "^0.3.0",
+    "@hiyocord/hiyocord-nexus-core": "^1.0.0",
+    "@hiyocord/hiyocord-nexus-types": "^1.0.0",
     "discord-interactions": "^4.4.0",
     "hono": "^4.11.3"
   }
