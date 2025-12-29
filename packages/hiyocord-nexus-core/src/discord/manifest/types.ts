@@ -36,6 +36,17 @@ export interface CreateManifestOptions {
   description: string;
 
   /**
+   * Signature algorithm for authentication
+   * @example "ed25519"
+   */
+  signatureAlgorithm: "ed25519" | "ecdsa-p256" | "rsa-pss-2048";
+
+  /**
+   * Base64-encoded public key for verifying requests from this service worker
+   */
+  publicKey: string;
+
+  /**
    * Permissions required by the application
    */
   permissions?: components["schemas"]["Permission"][];
