@@ -1,7 +1,6 @@
 ---
 "@hiyocord/hiyocord-nexus-types": major
 "@hiyocord/hiyocord-nexus-core": major
-"@hiyocord/hiyocord-nexus": major
 ---
 
 # Replace HMAC with Ed25519 Public Key Authentication
