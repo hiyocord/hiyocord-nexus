@@ -24,7 +24,7 @@ const base64 = {
 };
 
 async function generateKeyPair() {
-  console.log('Generating Ed25519 key pair...\n');
+  console.error('Generating Ed25519 key pair...\n');
 
   const keyPair = await crypto.subtle.generateKey(
     { name: 'Ed25519' },
@@ -38,36 +38,44 @@ async function generateKeyPair() {
   const publicKey = base64.encode(publicKeyBuffer);
   const privateKey = base64.encode(privateKeyBuffer);
 
-  console.log('✓ Key pair generated successfully!\n');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('PUBLIC KEY (share with service workers / Nexus):');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log(publicKey);
-  console.log('');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('PRIVATE KEY (keep secret, store in environment variables):');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log(privateKey);
-  console.log('');
-  console.log('ALGORITHM: ed25519');
-  console.log('');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('SETUP INSTRUCTIONS:');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('');
-  console.log('For Nexus (signs requests TO service workers):');
-  console.log('  wrangler secret put NEXUS_PRIVATE_KEY');
-  console.log('  wrangler secret put NEXUS_PUBLIC_KEY');
-  console.log('  wrangler secret put NEXUS_SIGNATURE_ALGORITHM  # Set to: ed25519');
-  console.log('');
-  console.log('For Service Workers (verify requests FROM Nexus):');
-  console.log('  wrangler secret put NEXUS_PUBLIC_KEY  # Use Nexus\'s public key');
-  console.log('');
-  console.log('For Service Workers (sign requests TO Nexus):');
-  console.log('  wrangler secret put SERVICE_WORKER_PRIVATE_KEY');
-  console.log('  # Add public_key and signature_algorithm to your manifest.json');
-  console.log('');
-  console.log('═══════════════════════════════════════════════════════════');
+  const result = {
+    "algorithm": "ed25519",
+    "public_key": publicKey,
+    "private_key": privateKey
+  }
+
+  console.log(JSON.stringify(result))
+
+  console.error('✓ Key pair generated successfully!\n');
+  console.error('═══════════════════════════════════════════════════════════');
+  console.error('PUBLIC KEY (share with service workers / Nexus):');
+  console.error('═══════════════════════════════════════════════════════════');
+  console.error(publicKey);
+  console.error('');
+  console.error('═══════════════════════════════════════════════════════════');
+  console.error('PRIVATE KEY (keep secret, store in environment variables):');
+  console.error('═══════════════════════════════════════════════════════════');
+  console.error(privateKey);
+  console.error('');
+  console.error('ALGORITHM: ed25519');
+  console.error('');
+  console.error('═══════════════════════════════════════════════════════════');
+  console.error('SETUP INSTRUCTIONS:');
+  console.error('═══════════════════════════════════════════════════════════');
+  console.error('');
+  console.error('For Nexus (signs requests TO service workers):');
+  console.error('  wrangler secret put NEXUS_PRIVATE_KEY');
+  console.error('  wrangler secret put NEXUS_PUBLIC_KEY');
+  console.error('  wrangler secret put NEXUS_SIGNATURE_ALGORITHM  # Set to: ed25519');
+  console.error('');
+  console.error('For Service Workers (verify requests FROM Nexus):');
+  console.error('  wrangler secret put NEXUS_PUBLIC_KEY  # Use Nexus\'s public key');
+  console.error('');
+  console.error('For Service Workers (sign requests TO Nexus):');
+  console.error('  wrangler secret put SERVICE_WORKER_PRIVATE_KEY');
+  console.error('  # Add public_key and signature_algorithm to your manifest.json');
+  console.error('');
+  console.error('═══════════════════════════════════════════════════════════');
 }
 
 generateKeyPair().catch((error) => {
