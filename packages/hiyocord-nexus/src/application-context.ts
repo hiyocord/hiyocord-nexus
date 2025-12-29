@@ -3,6 +3,7 @@ import { Context } from "hono"
 import { HonoEnv } from "./types"
 
 export type ApplicationContext = {
+  getEnv: () => HonoEnv['Bindings'];
   getManifestKv: () => KVNamespace;
   getTransferInteractionJwtSecret: () => string;
   getTransferInteractionSignatureSecret: () => string;
@@ -16,6 +17,7 @@ export type ApplicationContext = {
 
 export const createApplicationContext = (ctx: Context<HonoEnv>): ApplicationContext => {
   return {
+    getEnv: () => ctx.env,
     getManifestKv: () => ctx.env.KV,
     discord: {
       getApplicationId: () => ctx.env.DISCORD_APPLICATION_ID,

@@ -1,7 +1,8 @@
 import { APIInteraction, Manifest } from "@hiyocord/hiyocord-nexus-types";
 import { ApplicationContext } from "../../application-context";
 import { issueJWT } from "../../jwt";
-import { sign } from "@hiyocord/hiyocord-nexus-core";
+import { signRequest } from "@hiyocord/hiyocord-nexus-core/authentication/public-key-sign";
+import type { AlgorithmName } from "@hiyocord/hiyocord-nexus-core/authentication/signature-algorithm";
 
 export const InteractionTransfer = (ctx: ApplicationContext) => {
   const createJwt = async (manifest: Manifest, interactionId: string) => {
@@ -28,7 +29,15 @@ export const InteractionTransfer = (ctx: ApplicationContext) => {
     headers['Host'] = new URL(manifest.base_url).host
     headers['X-Hiyocord-Discord-Token'] = jwtToken;
 
-    const signedHeaders = await sign(ctx.getTransferInteractionSignatureSecret(), headers, body);
+    // Sign request with Nexus private key
+    const algorithm = (ctx.getEnv().NEXUS_SIGNATURE_ALGORITHM || 'ed25519') as AlgorithmName;
+    const privateKey = ctx.getEnv().NEXUS_PRIVATE_KEY;
+
+    if (!privateKey) {
+      throw new Error('NEXUS_PRIVATE_KEY is not configured');
+    }
+
+    const signedHeaders = await signRequest(algorithm, privateKey, headers, body);
     const transferRequest = new Request(
       manifest.base_url + "/interactions",
       {
