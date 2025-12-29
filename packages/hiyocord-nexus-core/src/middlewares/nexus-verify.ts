@@ -1,35 +1,35 @@
 import { createMiddleware } from "hono/factory";
-import { verifySignature } from "../authentication";
+import { verifyRequest } from "../authentication/public-key-sign";
 import { cloneRawRequest } from "hono/request";
 
-export const getNexusVerifyMiddleware = (secretEnv: string) => {
-  return createMiddleware<{Bindings: {[secretEnv]: string}}>(async (c, next) => {
+/**
+ * Middleware to verify Nexus signature using public key cryptography
+ * Service workers should use this middleware to verify requests from Nexus
+ *
+ * @param publicKeyEnv - Environment variable name containing Nexus's public key
+ */
+export const getNexusVerifyMiddleware = (publicKeyEnv: string) => {
+  return createMiddleware<{Bindings: {[publicKeyEnv]: string}}>(async (c, next) => {
     const headerTimestamp = c.req.header("X-Hiyocord-Timestamp");
     const signature = c.req.header("X-Hiyocord-Signature");
+    const algorithm = c.req.header("X-Hiyocord-Algorithm");
 
-    if (!(headerTimestamp && signature)) {
-      return c.text("Missing required headers", { status: 401 });
+    if (!(headerTimestamp && signature && algorithm)) {
+      return c.text("Missing required headers (X-Hiyocord-Timestamp, X-Hiyocord-Signature, X-Hiyocord-Algorithm)", { status: 401 });
     }
 
-    const timestamp = new Date().getTime().toString();
-    const timeDiff = Math.abs(parseInt(timestamp) - parseInt(headerTimestamp));
-    const maxAllowedDiff = 60 * 1000; // 1 minutes
-
-    if (timeDiff > maxAllowedDiff) {
-      return c.text("Request timestamp is too old", { status: 401 });
+    const publicKey = c.env[publicKeyEnv];
+    if (!publicKey) {
+      throw new Error(`Environment variable ${publicKeyEnv} is not configured`);
     }
 
-    if(!c.env[secretEnv]) {
-      throw new Error("secretEnv is undefined");
-    }
+    const verify = await verifyRequest(
+      publicKey,
+      c.req.header(),
+      await (await cloneRawRequest(c.req)).arrayBuffer()
+    );
 
-    const verify = await verifySignature({
-      headers: c.req.header(),
-      body: await (await cloneRawRequest(c.req)).arrayBuffer(),
-      secret: c.env[secretEnv]
-    }, signature);
-
-    if(verify) {
+    if (verify) {
       return await next();
     } else {
       return c.text("Invalid request signature", { status: 401 });
@@ -37,4 +37,7 @@ export const getNexusVerifyMiddleware = (secretEnv: string) => {
   })
 };
 
-export const nexusVerifyMiddleware = getNexusVerifyMiddleware("HIYOCORD_SECRET");
+/**
+ * Default middleware instance using NEXUS_PUBLIC_KEY environment variable
+ */
+export const nexusVerifyMiddleware = getNexusVerifyMiddleware("NEXUS_PUBLIC_KEY");
