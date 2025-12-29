@@ -14,6 +14,18 @@ paths:
     description: "Discord interaction"
   /api:
     description: "APIs used by nexus-web"
+  /.well-known/nexus-public-key:
+    description: "Endpoint to retrieve Nexus public key for signature verification"
+    get:
+      responses:
+        '200':
+          description: "Successfully retrieved Nexus public key"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NexusPublicKey'
+        default:
+          description: "Server error"
   /manifest:
     description: "Endpoint to submit manifest from service workers"
     post:
@@ -33,6 +45,23 @@ paths:
 
 components:
   schemas:
+    NexusPublicKey:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          description: "Public key signature algorithm"
+          enum:
+            - ed25519
+            - ecdsa-p256
+            - rsa-pss-2048
+        public_key:
+          type: string
+          description: "Base64-encoded Nexus public key"
+      required:
+        - algorithm
+        - public_key
+
     Manifest:
       type: object
       oneOf:
@@ -106,6 +135,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Permission"
+        signature_algorithm:
+          type: string
+          description: "Public key signature algorithm for authentication"
+          enum:
+            - ed25519
+            - ecdsa-p256
+            - rsa-pss-2048
+          default: ed25519
+        public_key:
+          type: string
+          description: "Base64-encoded public key for verifying requests from this service worker"
       required:
         - version
         - id
@@ -114,6 +154,8 @@ components:
         - application_commands
         - message_component_ids
         - modal_submit_ids
+        - signature_algorithm
+        - public_key
 
     Permission:
       oneOf:

@@ -36,6 +36,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/.well-known/nexus-public-key": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully retrieved Nexus public key */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["NexusPublicKey"];
+                    };
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/manifest": {
         parameters: {
             query?: never;
@@ -91,6 +133,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        NexusPublicKey: {
+            /**
+             * @description Public key signature algorithm
+             * @enum {string}
+             */
+            algorithm: "ed25519" | "ecdsa-p256" | "rsa-pss-2048";
+            /** @description Base64-encoded Nexus public key */
+            public_key: string;
+        };
         Manifest: components["schemas"]["Manifest_V1"];
         Manifest_V1: {
             /** @description Manifest schema version. */
@@ -127,6 +178,14 @@ export interface components {
             message_component_ids: string[];
             modal_submit_ids: string[];
             permissions?: components["schemas"]["Permission"][];
+            /**
+             * @description Public key signature algorithm for authentication
+             * @default ed25519
+             * @enum {string}
+             */
+            signature_algorithm: "ed25519" | "ecdsa-p256" | "rsa-pss-2048";
+            /** @description Base64-encoded public key for verifying requests from this service worker */
+            public_key: string;
         };
         Permission: {
             /** @enum {string} */
