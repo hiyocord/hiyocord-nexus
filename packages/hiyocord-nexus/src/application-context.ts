@@ -4,7 +4,6 @@ import { HonoEnv } from "./types"
 
 export type ApplicationContext = {
   getManifestKv: () => KVNamespace;
-  getTransferInteractionJwtSecret: () => string;
   getNexusPrivateKey: () => string;
   getNexusPublicKey: () => string;
   getNexusSignatureAlgorithm: () => string;
@@ -19,7 +18,6 @@ export type ApplicationContext = {
 export const createApplicationContext = (ctx: Context<HonoEnv>): ApplicationContext => {
   return {
     getManifestKv: () => ctx.env.KV,
-    getTransferInteractionJwtSecret: () => ctx.env.JWT_SECRET,
     getNexusPrivateKey: () => ctx.env.NEXUS_PRIVATE_KEY,
     getNexusPublicKey: () => ctx.env.NEXUS_PUBLIC_KEY,
     getNexusSignatureAlgorithm: () => ctx.env.NEXUS_SIGNATURE_ALGORITHM || 'ed25519',

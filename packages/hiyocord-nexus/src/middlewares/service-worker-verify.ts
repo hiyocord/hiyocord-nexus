@@ -3,27 +3,24 @@ import { verifyRequest } from "@hiyocord/hiyocord-nexus-core";
 import { cloneRawRequest } from "hono/request";
 import { Manifest } from "@hiyocord/hiyocord-nexus-types";
 import { HonoEnv } from "../types";
-import { JWTPayload, verifyJWT } from "../jwt";
 
 /**
  * Middleware to verify service worker authentication
- * Checks both JWT token and public key signature from manifest
+ * Verifies public key signature from manifest
  *
  * Used when service workers call Nexus APIs (e.g., Discord API Proxy)
+ * Requires X-Hiyocord-Manifest-Id header to identify the service worker
  */
 export const verifyServiceWorker = createMiddleware<HonoEnv>(async (c, next) => {
   try {
-    // 1. Verify JWT token
-    const token = c.req.header("Authorization") ?? "Bot ";
-    const payload = await verifyJWT(
-      c.env.JWT_SECRET,
-      token.substring("Bot ".length),
-    );
-
-    c.set("payload", payload as JWTPayload);
+    // 1. Get manifest ID from header
+    const manifestId = c.req.header("X-Hiyocord-Manifest-Id");
+    if (!manifestId) {
+      console.error("Missing X-Hiyocord-Manifest-Id header");
+      return c.json({ error: "Missing manifest ID" }, 401);
+    }
 
     // 2. Get service worker's public key from manifest
-    const manifestId = (payload as JWTPayload).manifest_id;
     const manifestJson = await c.env.KV.get(`manifest:${manifestId}`);
 
     if (!manifestJson) {
@@ -49,6 +46,9 @@ export const verifyServiceWorker = createMiddleware<HonoEnv>(async (c, next) => 
       console.error(`Signature verification failed for manifest: ${manifestId}`);
       return c.json({ error: "Invalid signature" }, 401);
     }
+
+    // Store manifest ID in context for later use
+    c.set("manifestId", manifestId);
 
     return await next();
   } catch (error) {
