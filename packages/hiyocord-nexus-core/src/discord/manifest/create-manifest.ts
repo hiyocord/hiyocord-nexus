@@ -60,6 +60,8 @@ export function createManifest(
     base_url: options.baseUrl,
     icon_url: options.iconUrl??null,
     description: options.description,
+    signature_algorithm: options.signatureAlgorithm,
+    public_key: options.publicKey,
     application_commands: {
       global: globalCommands,
       guild: guildCommands,

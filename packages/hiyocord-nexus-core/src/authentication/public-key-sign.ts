@@ -47,7 +47,7 @@ export const createSigningPayload = (headers: Record<string, string>, body: Arra
   const encoder = new TextEncoder();
   const canonicalHeaders = canonicalizeHeaders(headers);
   const headerBytes = encoder.encode(canonicalHeaders);
-  return concatBuffers([headerBytes, new Uint8Array(body)]);
+  return concatBuffers([headerBytes, new Uint8Array(body)]).buffer;
 };
 
 /**

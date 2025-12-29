@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { HonoEnv } from "../../types";
-import { getAlgorithm } from "@hiyocord/hiyocord-nexus-core/authentication/signature-algorithm";
+import { getAlgorithm } from "@hiyocord/hiyocord-nexus-core";
 
 /**
  * GET /.well-known/nexus-public-key

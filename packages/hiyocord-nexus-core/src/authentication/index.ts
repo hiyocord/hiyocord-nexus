@@ -1,5 +1,5 @@
-export * from './types';
-export * from './sign';
-export * from './verify';
+export * from './signature-algorithm';
+export * from './public-key-sign';
+export * from './service-worker-sign';
 
 

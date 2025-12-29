@@ -3,10 +3,11 @@ import { Context } from "hono"
 import { HonoEnv } from "./types"
 
 export type ApplicationContext = {
-  getEnv: () => HonoEnv['Bindings'];
   getManifestKv: () => KVNamespace;
   getTransferInteractionJwtSecret: () => string;
-  getTransferInteractionSignatureSecret: () => string;
+  getNexusPrivateKey: () => string;
+  getNexusPublicKey: () => string;
+  getNexusSignatureAlgorithm: () => string;
   discord: {
     getApplicationId: () => string;
     getToken: () => string;
@@ -17,15 +18,16 @@ export type ApplicationContext = {
 
 export const createApplicationContext = (ctx: Context<HonoEnv>): ApplicationContext => {
   return {
-    getEnv: () => ctx.env,
     getManifestKv: () => ctx.env.KV,
+    getTransferInteractionJwtSecret: () => ctx.env.JWT_SECRET,
+    getNexusPrivateKey: () => ctx.env.NEXUS_PRIVATE_KEY,
+    getNexusPublicKey: () => ctx.env.NEXUS_PUBLIC_KEY,
+    getNexusSignatureAlgorithm: () => ctx.env.NEXUS_SIGNATURE_ALGORITHM || 'ed25519',
     discord: {
       getApplicationId: () => ctx.env.DISCORD_APPLICATION_ID,
       getToken: () => ctx.env.DISCORD_BOT_TOKEN,
       getClientSecret: () => ctx.env.DISCORD_CLIENT_SECRET,
       getPublicKey: () => ctx.env.DISCORD_PUBLIC_KEY,
     },
-    getTransferInteractionJwtSecret: () => ctx.env.JWT_SECRET,
-    getTransferInteractionSignatureSecret: () => ctx.env.HIYOCORD_SECRET
   }
 }
