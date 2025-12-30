@@ -20,5 +20,8 @@
     "@hiyocord/discord-rest-api": "^2.0.0",
     "@hiyocord/hiyocord-nexus-types": "^0.4.0",
     "hono": "^4.11.3"
+  },
+  "devDependencies": {
+    "@hiyocord/tsconfig": "^0.2.0"
   }
 }
