@@ -1,9 +1,5 @@
 {
   "extends": "@hiyocord/tsconfig/workers/tsconfig.json",
-  "compilerOptions": {
-    "module": "preserve",
-    "importHelpers": false
-  },
   "include": [
     "**/src/**/*"
   ]

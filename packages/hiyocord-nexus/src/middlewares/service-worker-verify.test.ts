@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest';
+import { describe, it, expect, beforeAll, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
 import { verifyServiceWorker } from './service-worker-verify';
 import { signRequest, getAlgorithm } from '@hiyocord/hiyocord-nexus-core';

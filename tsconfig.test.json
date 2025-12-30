@@ -1,0 +1,11 @@
+{
+  "extends": "@hiyocord/tsconfig/test/tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    "**/src/**/*.test.ts"
+  ]
+}
