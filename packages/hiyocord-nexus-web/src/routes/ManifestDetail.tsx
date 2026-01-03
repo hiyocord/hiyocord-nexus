@@ -1,26 +1,87 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { mockManifestDetails } from '../lib/mockData';
+import type { ManifestLatestVersion } from '../lib/types';
+import { useFetch } from '../hooks/use-fetch';
 import './ManifestDetail.css';
 
 export function ManifestDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [manifest, setManifest] = useState<ManifestLatestVersion | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const client = useFetch();
 
-  const manifest = id ? mockManifestDetails[id] : undefined;
+  useEffect(() => {
+    const fetchManifest = async () => {
+      if (!id) {
+        setError('IDが指定されていません');
+        setLoading(false);
+        return;
+      }
 
-  const handleDelete = () => {
-    if (confirm(`サービス "${manifest?.name}" を削除しますか？`)) {
-      alert('サービスを削除しました（モック）');
-      navigate('/manifests');
+      try {
+        setLoading(true);
+        const { data, error } = await client.GET('/api/manifests/{id}', {
+          params: { path: { id } },
+        });
+
+        if (error) {
+          setError('サービスの取得に失敗しました');
+          return;
+        }
+
+        setManifest(data || null);
+      } catch (err) {
+        setError('サービスの取得に失敗しました');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchManifest();
+  }, [id]);
+
+  const handleDelete = async () => {
+    if (!manifest || !id) return;
+
+    if (confirm(`サービス "${manifest.name}" を削除しますか？`)) {
+      try {
+        const { error } = await client.DELETE('/api/manifests/{id}', {
+          params: { path: { id } },
+        });
+
+        if (error) {
+          alert('サービスの削除に失敗しました');
+          return;
+        }
+
+        alert('サービスを削除しました');
+        navigate('/manifests');
+      } catch (err) {
+        alert('サービスの削除に失敗しました');
+        console.error(err);
+      }
     }
   };
 
-  if (!manifest) {
+  if (loading) {
+    return (
+      <div className="manifest-detail-page">
+        <div className="error-state">
+          <p>読み込み中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !manifest) {
     return (
       <div className="manifest-detail-page">
         <div className="error-state">
           <h2>サービスが見つかりません</h2>
-          <p>指定されたIDのサービスは存在しません。</p>
+          <p>{error || '指定されたIDのサービスは存在しません。'}</p>
           <Link to="/manifests" className="btn btn-primary">
             一覧に戻る
           </Link>

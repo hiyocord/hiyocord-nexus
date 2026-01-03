@@ -25,12 +25,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  manifests:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ManifestSummary'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ManifestLatestVersion'
         default:
           description: "Server error"
 
@@ -98,6 +95,10 @@ paths:
                 $ref: '#/components/schemas/NexusPublicKey'
         default:
           description: "Server error"
+
+  /api/proxy/discord/v10:
+    summary: discord api v10 proxy
+    description: schema ref discord api v10
 
 components:
   schemas:
@@ -215,6 +216,7 @@ components:
         - application_commands
         - message_component_ids
         - modal_submit_ids
+        - permissions
         - signature_algorithm
         - public_key
 

@@ -1,13 +1,47 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockManifestSummaries } from '../lib/mockData';
+import type { ManifestLatestVersion } from '../lib/types';
+import { useFetch } from '../hooks/use-fetch';
 import './Home.css';
 
 export function Home() {
-  const totalManifests = mockManifestSummaries.length;
-  const totalGlobalCommands = mockManifestSummaries.reduce((sum, m) => sum + m.command_count.global, 0);
-  const totalGuildCommands = mockManifestSummaries.reduce((sum, m) => sum + m.command_count.guild, 0);
-  const totalComponents = mockManifestSummaries.reduce((sum, m) => sum + m.component_count, 0);
-  const totalModals = mockManifestSummaries.reduce((sum, m) => sum + m.modal_count, 0);
+  const [manifests, setManifests] = useState<ManifestLatestVersion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const client = useFetch();
+
+  useEffect(() => {
+    const fetchManifests = async () => {
+      try {
+        setLoading(true);
+        const { data } = await client.GET('/api/manifests');
+        setManifests(data || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchManifests();
+  }, []);
+
+  const totalManifests = manifests.length;
+  const totalGlobalCommands = manifests.reduce((sum, m) => sum + m.application_commands.global.length, 0);
+  const totalGuildCommands = manifests.reduce((sum, m) => sum + m.application_commands.guild.length, 0);
+
+  if (loading) {
+    return (
+      <div className="home-page">
+        <div className="welcome-section">
+          <h2 className="welcome-title">Hiyocord Nexus 管理画面へようこそ</h2>
+          <p className="welcome-description">
+            登録されているサービスを管理できます。
+          </p>
+        </div>
+        <p>読み込み中...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="home-page">

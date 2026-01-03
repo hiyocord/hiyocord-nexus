@@ -31,6 +31,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: build
         run: npm run build
+        env:
+          VITE_NEXUS_URL: ${{ secrets.NEXUS_URL }}
       - uses: actions/cache/save@v5
         with:
           path: packages/**/dist

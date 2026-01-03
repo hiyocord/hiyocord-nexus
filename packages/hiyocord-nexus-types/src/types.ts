@@ -43,9 +43,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": {
-                            manifests?: components["schemas"]["ManifestSummary"][];
-                        };
+                        "application/json": components["schemas"]["ManifestLatestVersion"][];
                     };
                 };
                 /** @description Server error */
@@ -234,6 +232,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/proxy/discord/v10": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -283,7 +297,7 @@ export interface components {
             };
             message_component_ids: string[];
             modal_submit_ids: string[];
-            permissions?: components["schemas"]["Permission"][];
+            permissions: components["schemas"]["Permission"][];
             /**
              * @description Public key signature algorithm for authentication
              * @default ed25519
