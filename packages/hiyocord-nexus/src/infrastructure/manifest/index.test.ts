@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ManifestStore } from '../infrastructure/manifest';
+import { ManifestStore } from './index';
 import { Manifest } from '@hiyocord/hiyocord-nexus-types';
 import { InteractionType, ApplicationCommandType } from 'discord-api-types/v10';
-import type { ApplicationContext } from '../application-context';
+import type { ApplicationContext } from '../../application-context';
 import type { KVNamespace } from '@cloudflare/workers-types';
 
 describe('ManifestStore', () => {
