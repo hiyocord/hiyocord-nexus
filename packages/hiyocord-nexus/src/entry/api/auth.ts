@@ -1,23 +1,9 @@
 import { Hono } from "hono"
-import { cors } from "hono/cors"
 import { sign, verify } from "hono/jwt"
 import { getCookie } from "hono/cookie"
 import { HonoEnv } from "../../types"
 
 export default (app: Hono<HonoEnv>) => {
-  app.use(
-    '/api/auth/*',
-    cors({
-      origin: [
-        'http://localhost:5173',
-        'https://dash.nexus.hiyocord.org'
-      ],
-      allowMethods: ['POST', 'GET', 'OPTIONS'],
-      credentials: true,
-    })
-  )
-
-
   // Web API: Discord OAuth2認証画面にリダイレクト
   app.get("/api/auth/discord/authorize", async (c) => {
     const origin = c.req.query("origin")

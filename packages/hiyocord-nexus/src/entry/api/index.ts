@@ -6,18 +6,25 @@ import manifest from "./manifest"
 export default (app: AppType) => {
   app.use(
     '/api/*',
-    (c, next) => {
-      const corsMiddlewareHandler = cors({
-        origin: [
-          // TODO get from env
-          'http://localhost:5173',
-          'https://dash.nexus.hiyocord.org'
-        ],
-        allowMethods: ['GET', 'POST', 'OPTIONS'],
+    cors({
+        origin: (origin, ctx) => {
+          if (!origin) { // not browser
+            return null;
+          }
+          const host = new URL(origin).host;
+          console.error(`origin: ${ctx.req.method} ${ctx.req.path} ${origin} ${host}`)
+          if(host === "nexus.hiyocord.org") {
+            return origin;
+          } else if(host.endsWith('.nexus.hiyocord.org')) {
+            return origin;
+          }
+          return null;
+        },
+        allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowHeaders: ["content-type"],
         credentials: true,
-      })
-      return corsMiddlewareHandler(c, next)
-    }
+      }
+    )
   )
 
   auth(app)
