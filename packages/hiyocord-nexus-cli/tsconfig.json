@@ -7,8 +7,6 @@
     "target": "es2024",
     "module": "es2022",
 
-
-    "composite": true,
     "skipLibCheck": true,
 
     "declaration": true,
