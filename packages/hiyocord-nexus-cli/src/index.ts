@@ -3,10 +3,10 @@ import { parseArgs } from "node:util";
 import { Command } from "./command.js";
 import { exit } from "node:process";
 import genKey from "./gen-key.js";
-import path from "node:path";
+import { basename } from "node:path";
 
 async function main() {
-  const commandName = path.basename(process.argv[1]);
+  const commandName = basename(process.argv[1]);
   const command = [
     genKey
   ].find(it => it.name === commandName);
