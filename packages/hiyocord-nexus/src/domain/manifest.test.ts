@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ManifestResolver } from './manifest';
+import { ManifestStore } from '../infrastructure/manifest';
 import { Manifest } from '@hiyocord/hiyocord-nexus-types';
 import { InteractionType, ApplicationCommandType } from 'discord-api-types/v10';
 import type { ApplicationContext } from '../application-context';
 import type { KVNamespace } from '@cloudflare/workers-types';
 
-describe('ManifestResolver', () => {
+describe('ManifestStore', () => {
   const createBasicManifest = (id: string): Manifest => ({
     version: '1.0.0',
     id,
@@ -67,8 +67,8 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:service-1', manifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
-      const result = await resolver.byId('service-1');
+      const store = ManifestStore(ctx);
+      const result = await store.findById('service-1');
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('service-1');
@@ -77,8 +77,8 @@ describe('ManifestResolver', () => {
     it('should return null if manifest not found', async () => {
       const kv = createMockKV();
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
-      const result = await resolver.byId('non-existent');
+      const store = ManifestStore(ctx);
+      const result = await store.findById('non-existent');
 
       expect(result).toBeNull();
     });
@@ -100,7 +100,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:test-service', manifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.ApplicationCommand,
         data: {
@@ -110,7 +110,7 @@ describe('ManifestResolver', () => {
         guild: undefined,
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('test-service');
@@ -132,7 +132,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:test-service', manifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.ApplicationCommand,
         data: {
@@ -144,7 +144,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('test-service');
@@ -161,7 +161,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:guild-service', guildManifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.ApplicationCommand,
         data: {
@@ -173,7 +173,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('guild-service');
@@ -189,7 +189,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:test-service', manifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.MessageComponent,
         data: {
@@ -198,7 +198,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('test-service');
@@ -212,7 +212,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:test-service', manifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.MessageComponent,
         data: {
@@ -222,7 +222,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('test-service');
@@ -231,7 +231,7 @@ describe('ManifestResolver', () => {
     it('should return null if custom_id not registered', async () => {
       const kv = createMockKV();
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.MessageComponent,
         data: {
@@ -240,7 +240,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).toBeNull();
     });
@@ -256,7 +256,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:service-2', manifest2);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
 
       const interaction1: any = {
         type: InteractionType.MessageComponent,
@@ -268,8 +268,8 @@ describe('ManifestResolver', () => {
         data: { custom_id: 'button-d', component_type: 2 },
       };
 
-      expect((await resolver.byInteraction(interaction1))?.id).toBe('service-1');
-      expect((await resolver.byInteraction(interaction2))?.id).toBe('service-2');
+      expect((await store.findByInteraction(interaction1))?.id).toBe('service-1');
+      expect((await store.findByInteraction(interaction2))?.id).toBe('service-2');
     });
   });
 
@@ -282,7 +282,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:test-service', manifest);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.ModalSubmit,
         data: {
@@ -291,7 +291,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).not.toBeNull();
       expect(result?.id).toBe('test-service');
@@ -300,7 +300,7 @@ describe('ManifestResolver', () => {
     it('should return null if modal custom_id not registered', async () => {
       const kv = createMockKV();
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.ModalSubmit,
         data: {
@@ -309,7 +309,7 @@ describe('ManifestResolver', () => {
         },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).toBeNull();
     });
@@ -325,7 +325,7 @@ describe('ManifestResolver', () => {
       kv.setStorage('manifest:service-2', manifest2);
 
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
 
       const interaction1: any = {
         type: InteractionType.ModalSubmit,
@@ -337,8 +337,8 @@ describe('ManifestResolver', () => {
         data: { custom_id: 'modal-d', components: [] },
       };
 
-      expect((await resolver.byInteraction(interaction1))?.id).toBe('service-1');
-      expect((await resolver.byInteraction(interaction2))?.id).toBe('service-2');
+      expect((await store.findByInteraction(interaction1))?.id).toBe('service-1');
+      expect((await store.findByInteraction(interaction2))?.id).toBe('service-2');
     });
   });
 
@@ -346,13 +346,13 @@ describe('ManifestResolver', () => {
     it('should handle manifest with empty message_component_ids', async () => {
       const kv = createMockKV();
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.MessageComponent,
         data: { custom_id: 'any-button', component_type: 2 },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).toBeNull();
     });
@@ -360,13 +360,13 @@ describe('ManifestResolver', () => {
     it('should handle manifest with undefined message_component_ids', async () => {
       const kv = createMockKV();
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
       const interaction: any = {
         type: InteractionType.MessageComponent,
         data: { custom_id: 'any-button', component_type: 2 },
       };
 
-      const result = await resolver.byInteraction(interaction);
+      const result = await store.findByInteraction(interaction);
 
       expect(result).toBeNull();
     });
@@ -374,14 +374,14 @@ describe('ManifestResolver', () => {
     it('should throw error for unknown interaction type', async () => {
       const kv = createMockKV();
       const ctx = createMockContext(kv);
-      const resolver = ManifestResolver(ctx);
+      const store = ManifestStore(ctx);
 
       const interaction: any = {
         type: 999,
         data: {},
       };
 
-      await expect(resolver.byInteraction(interaction)).rejects.toThrow('unknown interaction type');
+      await expect(store.findByInteraction(interaction)).rejects.toThrow('unknown interaction type');
     });
   });
 });
