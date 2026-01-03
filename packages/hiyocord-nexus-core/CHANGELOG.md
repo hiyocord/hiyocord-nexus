@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.7.0
+
+### Minor Changes
+
+- [`e5f3497`](https://github.com/hiyocord/hiyocord-nexus/commit/e5f3497461b252ed053586aac223bd52daae37bf) Thanks [@kurages](https://github.com/kurages)! - fix
+
 ## 0.6.0
 
 ### Minor Changes
