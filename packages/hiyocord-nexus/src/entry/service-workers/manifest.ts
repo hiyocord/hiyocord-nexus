@@ -11,8 +11,8 @@ export default (app: Hono<HonoEnv>) => {
 
     const registerDiscordCommands = await ManifestRegisterService(ctx, manifest)
 
-    // Discordコマンド登録を非同期実行
-    c.executionCtx.waitUntil(registerDiscordCommands())
+    // Discordコマンド登録を同期実行（3秒ルールがないため）
+    await registerDiscordCommands()
 
     return c.json({}, 200)
   })
@@ -27,8 +27,8 @@ export default (app: Hono<HonoEnv>) => {
       return c.json({ error: "Manifest not found" }, 404)
     }
 
-    // Discordコマンド再登録を非同期実行
-    c.executionCtx.waitUntil(registerDiscordCommands())
+    // Discordコマンド再登録を同期実行（3秒ルールがないため）
+    await registerDiscordCommands()
 
     return c.json({}, 200)
   })
