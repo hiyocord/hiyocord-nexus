@@ -1,9 +1,21 @@
 {
   "name": "hiyocord-nexus-web",
   "private": true,
-  "type": "commonjs",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "predeploy": "wrangler-configurer generate",
+    "deploy": "wrangler pages deploy dist"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-router-dom": "^7.11.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3"
+  }
 }
