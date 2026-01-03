@@ -1,5 +1,5 @@
 import { paths } from "@hiyocord/hiyocord-nexus-types";
-import { AlgorithmName, signRequest } from "authentication";
+import { AlgorithmName, signRequest } from "../authentication";
 import { createMiddleware } from "hono/factory";
 import createClient from "openapi-fetch";
 
