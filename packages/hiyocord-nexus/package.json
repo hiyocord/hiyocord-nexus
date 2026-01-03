@@ -13,7 +13,7 @@
     "dev-deploy": "wrangler versions upload"
   },
   "dependencies": {
-    "@hiyocord/hiyocord-nexus-core": "^0.5.0",
+    "@hiyocord/hiyocord-nexus-core": "^0.6.0",
     "@hiyocord/hiyocord-nexus-types": "^0.5.0",
     "discord-interactions": "^4.4.0",
     "hono": "^4.11.3"
