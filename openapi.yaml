@@ -12,8 +12,80 @@ servers:
 paths:
   /interactions:
     description: "Discord interaction"
-  /api:
-    description: "APIs used by nexus-web"
+
+  /api/manifests:
+    description: "Get list of registered manifests"
+    get:
+      tags:
+        - Web API
+      summary: "List all registered manifests"
+      responses:
+        '200':
+          description: "Successfully retrieved manifests list"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  manifests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ManifestSummary'
+        default:
+          description: "Server error"
+
+    post:
+      description: "Endpoint to submit manifest from service workers"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/ManifestAnyVersion'
+      responses:
+        '200':
+          description: "ok"
+        '400':
+          description: "Invalid input data"
+        default:
+          description: "Server error"
+
+  /api/manifests/{id}:
+    description: "Get or delete a specific manifest"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: "Manifest ID"
+    get:
+      tags:
+        - Web API
+      summary: "Get manifest details"
+      responses:
+        '200':
+          description: "Successfully retrieved manifest details"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManifestLatestVersion'
+        '404':
+          description: "Manifest not found"
+        default:
+          description: "Server error"
+    delete:
+      tags:
+        - Web API
+      summary: "Delete a manifest"
+      responses:
+        '200':
+          description: "Successfully deleted manifest"
+        '404':
+          description: "Manifest not found"
+        default:
+          description: "Server error"
+
   /.well-known/nexus-public-key:
     description: "Endpoint to retrieve Nexus public key for signature verification"
     get:
@@ -24,22 +96,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NexusPublicKey'
-        default:
-          description: "Server error"
-  /manifest:
-    description: "Endpoint to submit manifest from service workers"
-    post:
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/Manifest'
-      responses:
-        '200':
-          description: "ok"
-        '400':
-          description: "Invalid input data"
         default:
           description: "Server error"
 
@@ -62,12 +118,17 @@ components:
         - algorithm
         - public_key
 
-    Manifest:
+    ManifestLatestVersion:
+      type: object
+      $ref: '#/components/schemas/Manifest_V1'
+
+    ManifestAnyVersion:
       type: object
       oneOf:
         - $ref: '#/components/schemas/Manifest_V1'
       required:
         - version
+
     Manifest_V1:
       type: object
       properties:
@@ -213,3 +274,51 @@ components:
             data:
               type: object
               description: "Interaction data"
+
+    ManifestSummary:
+      type: object
+      description: "Summary information of a registered manifest"
+      properties:
+        id:
+          type: string
+          description: "Manifest ID"
+        name:
+          type: string
+          description: "Manifest name"
+        icon_url:
+          type:
+            - string
+            - "null"
+          format: uri
+          description: "URL to the application's icon"
+        description:
+          type: string
+          description: "Manifest description"
+        base_url:
+          type: string
+          format: uri
+          description: "Base URL of the service worker"
+        command_count:
+          type: object
+          description: "Number of registered commands"
+          properties:
+            global:
+              type: integer
+              description: "Number of global commands"
+            guild:
+              type: integer
+              description: "Number of guild-specific commands"
+        component_count:
+          type: integer
+          description: "Number of message component IDs"
+        modal_count:
+          type: integer
+          description: "Number of modal submit IDs"
+      required:
+        - id
+        - name
+        - description
+        - base_url
+        - command_count
+        - component_count
+        - modal_count

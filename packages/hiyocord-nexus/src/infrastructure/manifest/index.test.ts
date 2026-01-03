@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
 import { ManifestStore } from './index';
-import { Manifest } from '@hiyocord/hiyocord-nexus-types';
+import { ManifestAnyVersion } from '@hiyocord/hiyocord-nexus-types';
 import { InteractionType, ApplicationCommandType } from 'discord-api-types/v10';
 import type { ApplicationContext } from '../../application-context';
 import type { KVNamespace } from '@cloudflare/workers-types';
 
 describe('ManifestStore', () => {
-  const createBasicManifest = (id: string): Manifest => ({
+  const createBasicManifest = (id: string): ManifestAnyVersion => ({
     version: '1.0.0',
     id,
     name: `Service ${id}`,
@@ -41,9 +41,6 @@ describe('ManifestStore', () => {
       }),
       list: vi.fn(),
       getWithMetadata: vi.fn(),
-      setStorage: (key: string, value: any) => {
-        storage.set(key, typeof value === 'string' ? value : JSON.stringify(value));
-      },
     } as any;
   };
 
@@ -64,7 +61,7 @@ describe('ManifestStore', () => {
     it('should find manifest by id', async () => {
       const kv = createMockKV();
       const manifest = createBasicManifest('service-1');
-      kv.setStorage('manifest:service-1', manifest);
+      kv.put('manifest:service-1', JSON.stringify(manifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -96,8 +93,8 @@ describe('ManifestStore', () => {
         },
       ];
 
-      kv.setStorage('cmd:global:test-command', 'test-service');
-      kv.setStorage('manifest:test-service', manifest);
+      kv.put('cmd:global:test-command', 'test-service');
+      kv.put('manifest:test-service', JSON.stringify(manifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -128,8 +125,8 @@ describe('ManifestStore', () => {
         },
       ];
 
-      kv.setStorage('cmd:guild:123456789:guild-command', 'test-service');
-      kv.setStorage('manifest:test-service', manifest);
+      kv.put('cmd:guild:123456789:guild-command', 'test-service');
+      kv.put('manifest:test-service', JSON.stringify(manifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -155,10 +152,10 @@ describe('ManifestStore', () => {
       const globalManifest = createBasicManifest('global-service');
       const guildManifest = createBasicManifest('guild-service');
 
-      kv.setStorage('cmd:global:shared-command', 'global-service');
-      kv.setStorage('cmd:guild:123456789:shared-command', 'guild-service');
-      kv.setStorage('manifest:global-service', globalManifest);
-      kv.setStorage('manifest:guild-service', guildManifest);
+      kv.put('cmd:global:shared-command', 'global-service');
+      kv.put('cmd:guild:123456789:shared-command', 'guild-service');
+      kv.put('manifest:global-service', JSON.stringify(globalManifest));
+      kv.put('manifest:guild-service', JSON.stringify(guildManifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -185,8 +182,8 @@ describe('ManifestStore', () => {
       const kv = createMockKV();
       const manifest = createBasicManifest('test-service');
 
-      kv.setStorage('component:confirm-button', 'test-service');
-      kv.setStorage('manifest:test-service', manifest);
+      kv.put('component:confirm-button', 'test-service');
+      kv.put('manifest:test-service', JSON.stringify(manifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -208,8 +205,8 @@ describe('ManifestStore', () => {
       const kv = createMockKV();
       const manifest = createBasicManifest('test-service');
 
-      kv.setStorage('component:role-select', 'test-service');
-      kv.setStorage('manifest:test-service', manifest);
+      kv.put('component:role-select', 'test-service');
+      kv.put('manifest:test-service', JSON.stringify(manifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -250,10 +247,10 @@ describe('ManifestStore', () => {
       const manifest1 = createBasicManifest('service-1');
       const manifest2 = createBasicManifest('service-2');
 
-      kv.setStorage('component:button-b', 'service-1');
-      kv.setStorage('component:button-d', 'service-2');
-      kv.setStorage('manifest:service-1', manifest1);
-      kv.setStorage('manifest:service-2', manifest2);
+      kv.put('component:button-b', 'service-1');
+      kv.put('component:button-d', 'service-2');
+      kv.put('manifest:service-1', JSON.stringify(manifest1));
+      kv.put('manifest:service-2', JSON.stringify(manifest2));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -278,8 +275,8 @@ describe('ManifestStore', () => {
       const kv = createMockKV();
       const manifest = createBasicManifest('test-service');
 
-      kv.setStorage('modal:feedback-modal', 'test-service');
-      kv.setStorage('manifest:test-service', manifest);
+      kv.put('modal:feedback-modal', 'test-service');
+      kv.put('manifest:test-service', JSON.stringify(manifest));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);
@@ -319,10 +316,10 @@ describe('ManifestStore', () => {
       const manifest1 = createBasicManifest('service-1');
       const manifest2 = createBasicManifest('service-2');
 
-      kv.setStorage('modal:modal-a', 'service-1');
-      kv.setStorage('modal:modal-d', 'service-2');
-      kv.setStorage('manifest:service-1', manifest1);
-      kv.setStorage('manifest:service-2', manifest2);
+      kv.put('modal:modal-a', 'service-1');
+      kv.put('modal:modal-d', 'service-2');
+      kv.put('manifest:service-1', JSON.stringify(manifest1));
+      kv.put('manifest:service-2', JSON.stringify(manifest2));
 
       const ctx = createMockContext(kv);
       const store = ManifestStore(ctx);

@@ -1,4 +1,4 @@
-import { APIInteraction, Manifest } from "@hiyocord/hiyocord-nexus-types";
+import { APIInteraction, ManifestLatestVersion } from "@hiyocord/hiyocord-nexus-types";
 import { ApplicationContext } from "../../application-context";
 import { signRequest, type AlgorithmName } from "@hiyocord/hiyocord-nexus-core";
 
@@ -9,7 +9,7 @@ export const InteractionTransfer = (ctx: ApplicationContext) => {
     return headers;
   }
 
-  const transfer = async (manifest: Manifest, interaction: APIInteraction, request: Request) => {
+  const transfer = async (manifest: ManifestLatestVersion, interaction: APIInteraction, request: Request) => {
     let headers = getHeaders(request);
     const body = await request.arrayBuffer();
 

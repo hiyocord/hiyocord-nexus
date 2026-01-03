@@ -1,12 +1,12 @@
 import { Hono } from "hono"
 import { HonoEnv } from "../../types"
-import type { Manifest } from '@hiyocord/hiyocord-nexus-types'
+import type { ManifestAnyVersion } from '@hiyocord/hiyocord-nexus-types'
 import { createApplicationContext } from "../../application-context"
 import { ManifestRegisterService, ManifestDeleteService } from "../../usecase/manifest"
 
 export default (app: Hono<HonoEnv>) => {
-  app.post("/manifest", async (c) => {
-    const manifest = await c.req.json() as Manifest
+  app.post("/api/manifest", async (c) => {
+    const manifest = await c.req.json() as ManifestAnyVersion
     const ctx = createApplicationContext(c)
 
     const registerDiscordCommands = await ManifestRegisterService(ctx, manifest)
@@ -17,7 +17,7 @@ export default (app: Hono<HonoEnv>) => {
     return c.json({}, 200)
   })
 
-  app.delete("/manifest/:id", async (c) => {
+  app.delete("/api/manifest/:id", async (c) => {
     const manifestId = c.req.param("id")
     const ctx = createApplicationContext(c)
 

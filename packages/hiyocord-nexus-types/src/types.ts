@@ -20,17 +20,173 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api": {
+    "/api/manifests": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** List all registered manifests */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully retrieved manifests list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            manifests?: components["schemas"]["ManifestSummary"][];
+                        };
+                    };
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** @description Endpoint to submit manifest from service workers */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ManifestAnyVersion"];
+                };
+            };
+            responses: {
+                /** @description ok */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Invalid input data */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/manifests/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Manifest ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** Get manifest details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Manifest ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully retrieved manifest details */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ManifestLatestVersion"];
+                    };
+                };
+                /** @description Manifest not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete a manifest */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Manifest ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully deleted manifest */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Manifest not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -78,57 +234,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/manifest": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["Manifest"];
-                };
-            };
-            responses: {
-                /** @description ok */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Invalid input data */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Server error */
-                default: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -142,7 +247,8 @@ export interface components {
             /** @description Base64-encoded Nexus public key */
             public_key: string;
         };
-        Manifest: components["schemas"]["Manifest_V1"];
+        ManifestLatestVersion: components["schemas"]["Manifest_V1"];
+        ManifestAnyVersion: components["schemas"]["Manifest_V1"];
         Manifest_V1: {
             /** @description Manifest schema version. */
             version: string;
@@ -228,6 +334,36 @@ export interface components {
                 /** @description Interaction data */
                 data?: Record<string, never>;
             };
+        };
+        /** @description Summary information of a registered manifest */
+        ManifestSummary: {
+            /** @description Manifest ID */
+            id: string;
+            /** @description Manifest name */
+            name: string;
+            /**
+             * Format: uri
+             * @description URL to the application's icon
+             */
+            icon_url?: string | null;
+            /** @description Manifest description */
+            description: string;
+            /**
+             * Format: uri
+             * @description Base URL of the service worker
+             */
+            base_url: string;
+            /** @description Number of registered commands */
+            command_count: {
+                /** @description Number of global commands */
+                global?: number;
+                /** @description Number of guild-specific commands */
+                guild?: number;
+            };
+            /** @description Number of message component IDs */
+            component_count: number;
+            /** @description Number of modal submit IDs */
+            modal_count: number;
         };
         /** Format: int32 */
         ApplicationCommandOptionType: number & (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11);

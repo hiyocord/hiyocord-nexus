@@ -5,7 +5,7 @@ import type {
 } from "@hiyocord/discord-interaction-client";
 import { InteractionType } from "@hiyocord/discord-interaction-client";
 import type { NexusManifest, CreateManifestOptions } from "./types";
-import type { Manifest } from "@hiyocord/hiyocord-nexus-types";
+import type { ManifestLatestVersion } from "@hiyocord/hiyocord-nexus-types";
 
 /**
  * Create a Nexus manifest from an InteractionHandlerRegistry
@@ -40,7 +40,7 @@ export function createManifest(
       return {
         name: it.name,
         description: it.description,
-      } satisfies Manifest["application_commands"]["global"][number];
+      } satisfies ManifestLatestVersion["application_commands"]["global"][number];
     },
   );
   const guildCommands = handlers.filter(it => it.guildIds.length > 0).map(
@@ -49,7 +49,7 @@ export function createManifest(
         name: it.name,
         description: it.description,
         guild_id: it.guildIds
-      } satisfies Manifest["application_commands"]["guild"][number];
+      } satisfies ManifestLatestVersion["application_commands"]["guild"][number];
     },
   );
 

@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { verifyRequest } from "@hiyocord/hiyocord-nexus-core";
 import { cloneRawRequest } from "hono/request";
-import { Manifest } from "@hiyocord/hiyocord-nexus-types";
+import { ManifestLatestVersion } from "@hiyocord/hiyocord-nexus-types";
 import { HonoEnv } from "../types";
 
 /**
@@ -21,14 +21,12 @@ export const verifyServiceWorker = createMiddleware<HonoEnv>(async (c, next) => 
     }
 
     // 2. Get service worker's public key from manifest
-    const manifestJson = await c.env.KV.get(`manifest:${manifestId}`);
+    const manifest = await c.env.KV.get(`manifest:${manifestId}`, "json") as ManifestLatestVersion;
 
-    if (!manifestJson) {
+    if (!manifest) {
       console.error(`Manifest not found: ${manifestId}`);
       return c.json({ error: "Manifest not found" }, 401);
     }
-
-    const manifest = JSON.parse(manifestJson) as Manifest;
 
     if (!manifest.public_key || !manifest.signature_algorithm) {
       console.error(`Public key or algorithm not found in manifest: ${manifestId}`);

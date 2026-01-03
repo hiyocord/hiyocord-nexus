@@ -1,4 +1,4 @@
-import type { APIInteraction, Manifest } from '@hiyocord/hiyocord-nexus-types'
+import type { APIInteraction, ManifestAnyVersion, ManifestLatestVersion } from '@hiyocord/hiyocord-nexus-types'
 import {
   APIApplicationCommandInteraction,
   APIApplicationCommandAutocompleteInteraction,
@@ -12,15 +12,15 @@ type ApplicationCmdInteraction = APIApplicationCommandInteraction | APIApplicati
 export const ManifestStore = (ctx: ApplicationContext) => {
   const kv = ctx.getManifestKv()
 
-  const findById = async (id: string): Promise<Manifest | null> => {
+  const findById = async (id: string): Promise<ManifestLatestVersion | null> => {
     const manifestJson = await kv.get(`manifest:${id}`, "json")
     if (!manifestJson) {
       return null
     }
-    return migrateManifest([manifestJson as Manifest])[0] ?? null
+    return migrateManifest([manifestJson as ManifestAnyVersion])[0] ?? null
   }
 
-  const findByInteraction = async (interaction: APIInteraction): Promise<Manifest | null> => {
+  const findByInteraction = async (interaction: APIInteraction): Promise<ManifestLatestVersion | null> => {
     let manifestId: string | null = null
 
     switch (interaction.type) {
@@ -61,13 +61,13 @@ export const ManifestStore = (ctx: ApplicationContext) => {
     return await findById(manifestId)
   }
 
-  const findAll = async (): Promise<Manifest[]> => {
+  const findAll = async (): Promise<ManifestLatestVersion[]> => {
     const manifestIds = await kv.get("manifests", "json") as string[] | null
     if (!manifestIds) {
       return []
     }
 
-    const manifests: Manifest[] = []
+    const manifests: ManifestLatestVersion[] = []
     for (const id of manifestIds) {
       const manifest = await findById(id)
       if (manifest) {
@@ -77,7 +77,7 @@ export const ManifestStore = (ctx: ApplicationContext) => {
     return manifests
   }
 
-  const save = async (manifest: Manifest) => {
+  const save = async (manifest: ManifestLatestVersion) => {
     const migrated = migrateManifest([manifest])[0]
     if (!migrated) {
       throw new Error('Manifest migration failed')

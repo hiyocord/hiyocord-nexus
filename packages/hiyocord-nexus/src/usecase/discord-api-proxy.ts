@@ -1,11 +1,11 @@
 import { LinearRouter } from 'hono/router/linear-router';
-import { Manifest } from "@hiyocord/hiyocord-nexus-types";
+import { ManifestLatestVersion } from "@hiyocord/hiyocord-nexus-types";
 import { ApplicationContext } from "../application-context";
 import { DiscordApiRepository } from '../infrastructure/discord-api';
 import { ManifestStore } from '../infrastructure';
 
 
-const isAllowed = (manifest: Manifest, method: string, endpoint: string) => {
+const isAllowed = (manifest: ManifestLatestVersion, method: string, endpoint: string) => {
   const permissions = manifest.permissions ?? []
   console.error(`permissions: ${JSON.stringify(permissions)}`)
   if(permissions.find(it => it.type === "DISCORD_BOT") !== undefined) {

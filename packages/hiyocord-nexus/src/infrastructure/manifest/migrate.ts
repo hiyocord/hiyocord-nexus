@@ -1,6 +1,6 @@
-import type { Manifest } from '@hiyocord/hiyocord-nexus-types';
+import type { ManifestAnyVersion, ManifestLatestVersion } from '@hiyocord/hiyocord-nexus-types';
 
-export const migrateManifest = (manifests: Manifest[]): Manifest[] => {
+export const migrateManifest = (manifests: ManifestAnyVersion[]): ManifestLatestVersion[] => {
   // TODO 最新verにする
   return manifests;
 }

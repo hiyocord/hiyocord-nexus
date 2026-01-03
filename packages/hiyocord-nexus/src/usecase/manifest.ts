@@ -1,8 +1,8 @@
-import type { DiscordCommand, Manifest } from '@hiyocord/hiyocord-nexus-types'
+import type { DiscordCommand, ManifestLatestVersion } from '@hiyocord/hiyocord-nexus-types'
 import { ApplicationContext } from '../application-context'
 import { ManifestStore } from '../infrastructure/manifest'
 
-const getCommandObject = (manifests: Manifest[]) => {
+const getCommandObject = (manifests: ManifestLatestVersion[]) => {
   const guildCmdManifest = manifests.map(it => it.application_commands.guild)
       .filter(it => it.length !== 0)
       .flat()
@@ -49,7 +49,7 @@ const registerCommandSet = async (
   }
 }
 
-export const ManifestRegisterService = async (ctx: ApplicationContext, manifest: Manifest) => {
+export const ManifestRegisterService = async (ctx: ApplicationContext, manifest: ManifestLatestVersion) => {
   const manifestStore = ManifestStore(ctx)
 
   // 既存Manifestが存在する場合は削除（更新の場合）
