@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.6.0
+
+### Minor Changes
+
+- [`8cf0320`](https://github.com/hiyocord/hiyocord-nexus/commit/8cf0320989b8902c546135c2818f18b78003244d) Thanks [@kurages](https://github.com/kurages)! - nexus にリクエストする用の fetch client 実装
+
 ## 0.5.0
 
 ### Minor Changes
