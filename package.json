@@ -14,7 +14,8 @@
     "packages/hiyocord-nexus-types",
     "packages/hiyocord-nexus-core",
     "packages/hiyocord-nexus",
-    "packages/hiyocord-nexus-web"
+    "packages/hiyocord-nexus-web",
+    "packages/hiyocord-nexus-cli"
   ],
   "devDependencies": {
     "@changesets/changelog-github": "0.5.2",
