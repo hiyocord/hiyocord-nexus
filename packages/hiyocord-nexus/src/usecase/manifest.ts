@@ -63,16 +63,16 @@ export const ManifestRegisterService = async (ctx: ApplicationContext, manifest:
 
   // Discordコマンド登録を非同期実行
   return async () => {
-    const baseUrl = `https://discord.com/api/v10/applications/${ctx.getDiscordApplicationId()}`
+    const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
     const manifests = await manifestStore.findAll()
     const { global, guild } = getCommandObject(manifests)
 
     // グローバルコマンド登録
-    await registerCommandSet(`${baseUrl}/commands`, global, ctx.getDiscordBotToken())
+    await registerCommandSet(`${baseUrl}/commands`, global, ctx.discord.getToken())
 
     // ギルドコマンド登録
     const req = Object.keys(guild).map(k =>
-      registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, ctx.getDiscordBotToken())
+      registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, ctx.discord.getToken())
     )
     await Promise.all(req)
   }
@@ -88,16 +88,16 @@ export const ManifestDeleteService = async (ctx: ApplicationContext, manifestId:
 
   // Discordコマンド再登録を非同期実行
   return async () => {
-    const baseUrl = `https://discord.com/api/v10/applications/${ctx.getDiscordApplicationId()}`
+    const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
     const manifests = await manifestStore.findAll()
     const { global, guild } = getCommandObject(manifests)
 
     // グローバルコマンド登録
-    await registerCommandSet(`${baseUrl}/commands`, global, ctx.getDiscordBotToken())
+    await registerCommandSet(`${baseUrl}/commands`, global, ctx.discord.getToken())
 
     // ギルドコマンド登録
     const req = Object.keys(guild).map(k =>
-      registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, ctx.getDiscordBotToken())
+      registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, ctx.discord.getToken())
     )
     await Promise.all(req)
   }
