@@ -1,5 +1,16 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.5.0
+
+### Minor Changes
+
+- [`bef3493`](https://github.com/hiyocord/hiyocord-nexus/commit/bef3493e200f3ba9e474513ff4b6c34c40e55768) Thanks [@kurages](https://github.com/kurages)! - discord-auth と manifests のエンドポイント変更 etc
+
+### Patch Changes
+
+- Updated dependencies [[`bef3493`](https://github.com/hiyocord/hiyocord-nexus/commit/bef3493e200f3ba9e474513ff4b6c34c40e55768)]:
+  - @hiyocord/hiyocord-nexus-types@0.5.0
+
 ## 0.4.0
 
 ### Minor Changes
