@@ -1,7 +1,16 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Layout.css';
 
 export function Layout() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
   return (
     <div className="layout">
       <header className="header">
@@ -16,6 +25,9 @@ export function Layout() {
             <Link to="/manifests" className="nav-link">
               Services
             </Link>
+            <button onClick={handleLogout} className="logout-button">
+              ログアウト
+            </button>
           </nav>
         </div>
       </header>

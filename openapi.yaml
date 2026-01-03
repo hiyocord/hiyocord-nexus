@@ -100,6 +100,115 @@ paths:
     summary: discord api v10 proxy
     description: schema ref discord api v10
 
+  /api/auth/discord/authorize:
+    description: "Discord OAuth2 authorization redirect endpoint"
+    get:
+      tags:
+        - Web API
+      summary: "Redirect to Discord OAuth2 authorization page"
+      parameters:
+        - name: origin
+          in: query
+          required: true
+          schema:
+            type: string
+          description: "Frontend origin (window.location.origin)"
+      responses:
+        '302':
+          description: "Redirect to Discord OAuth2 authorization page"
+        '400':
+          description: "Invalid origin parameter"
+        default:
+          description: "Server error"
+
+  /api/auth/discord:
+    description: "Discord OAuth2 authentication endpoint"
+    post:
+      tags:
+        - Web API
+      summary: "Exchange Discord OAuth2 code for access token"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: "OAuth2 authorization code from Discord"
+                redirect_uri:
+                  type: string
+                  description: "Redirect URI used in the OAuth2 flow"
+              required:
+                - code
+                - redirect_uri
+      responses:
+        '200':
+          description: "Successfully authenticated. JWT is set in HttpOnly Cookie."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    description: "Discord user information"
+                    properties:
+                      id:
+                        type: string
+                      username:
+                        type: string
+                      discriminator:
+                        type: string
+                      avatar:
+                        type: string
+        '401':
+          description: "Authentication failed"
+        default:
+          description: "Server error"
+
+  /api/auth/me:
+    description: "Get current authenticated user"
+    get:
+      tags:
+        - Web API
+      summary: "Get current user information"
+      responses:
+        '200':
+          description: "Successfully retrieved user information"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: "Discord User ID"
+        '401':
+          description: "Unauthorized"
+        default:
+          description: "Server error"
+
+  /api/auth/logout:
+    description: "Logout and clear authentication cookie"
+    post:
+      tags:
+        - Web API
+      summary: "Logout user"
+      responses:
+        '200':
+          description: "Successfully logged out. Cookie is cleared."
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: "Server error"
+
 components:
   schemas:
     NexusPublicKey:

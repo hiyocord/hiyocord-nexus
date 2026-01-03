@@ -5,12 +5,14 @@ import { createApplicationContext } from "../../application-context"
 import { ManifestRegisterService, ManifestDeleteService } from "../../usecase/manifest"
 import { ManifestStore } from "../../infrastructure/manifest"
 import { cors } from "hono/cors"
+import { requireAuth } from "../../middleware/auth"
 
 export default (app: Hono<HonoEnv>) => {
   // Web API: マニフェスト一覧取得
   app.get("/api/manifests", cors({
-    origin: "*"
-  }), async (c) => {
+    origin: "*",
+    credentials: true
+  }), requireAuth, async (c) => {
     const ctx = createApplicationContext(c)
     const manifestStore = ManifestStore(ctx)
 
@@ -20,7 +22,10 @@ export default (app: Hono<HonoEnv>) => {
   })
 
   // Web API: マニフェスト詳細取得
-  app.get("/api/manifests/:id", async (c) => {
+  app.get("/api/manifests/:id", cors({
+    origin: "*",
+    credentials: true
+  }), requireAuth, async (c) => {
     const manifestId = c.req.param("id")
     const ctx = createApplicationContext(c)
     const manifestStore = ManifestStore(ctx)
@@ -35,7 +40,10 @@ export default (app: Hono<HonoEnv>) => {
   })
 
   // Web API: マニフェスト削除
-  app.delete("/api/manifests/:id", async (c) => {
+  app.delete("/api/manifests/:id", cors({
+    origin: "*",
+    credentials: true
+  }), requireAuth, async (c) => {
     const manifestId = c.req.param("id")
     const ctx = createApplicationContext(c)
 

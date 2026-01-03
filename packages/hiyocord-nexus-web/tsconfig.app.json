@@ -6,6 +6,7 @@
     "rootDir": "${configDir}/src",
     "baseUrl": "${configDir}/src",
     "declarationDir": "${configDir}/dist",
+    "outDir": "${configDir}/dist",
 
     "lib": [
       "ESNext",

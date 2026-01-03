@@ -2,6 +2,10 @@
   "extends": [
     "@hiyocord/tsconfig/node/tsconfig.json",
   ],
+  "compilerOptions": {
+    "declarationMap": false,
+    "sourceMap": false
+  },
   "include": [
     "vite.config.ts"
   ]

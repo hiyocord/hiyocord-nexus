@@ -83,11 +83,20 @@ jobs:
       - name: settings-secret
         run: |
           worker_name=$(jq -r ".name"  <(tail -n +3 packages/hiyocord-nexus/wrangler.jsonc))
-          npx wrangler secret list --name ${worker_name} | jq '.[] | if .name == "NEXUS_PUBLIC_KEY" then halt_error(1) else empty end' && {
+          npx wrangler secret list --name ${worker_name} > secret.json
+
+          # public keys
+          jq '.[] | if .name == "NEXUS_PUBLIC_KEY" then halt_error(1) else empty end' < secret.json && {
             npx tsx scripts/generate-keypair.ts 2> /dev/null > secrets
             jq -jr ".private_key" secrets | npx wrangler secret --name ${worker_name} put NEXUS_PRIVATE_KEY
             jq -jr ".public_key" secrets | npx wrangler secret --name ${worker_name} put NEXUS_PUBLIC_KEY
             jq -jr ".algorithm" secrets | npx wrangler secret --name ${worker_name} put NEXUS_SIGNATURE_ALGORITHM
+          } || true
+
+          # jwt token
+          jq '.[] | if .name == "JWT_TOKEN" then halt_error(1) else empty end' < secret.json && {
+            node -e "console.log(require('crypto').randomBytes(32).toString('base64'))" \
+              | npx wrangler secret --name ${worker_name} put JWT_TOKEN
           } || true
 
   publish:
