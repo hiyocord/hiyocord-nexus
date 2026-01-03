@@ -7,6 +7,8 @@ export type ApplicationContext = {
   getNexusPrivateKey: () => string;
   getNexusPublicKey: () => string;
   getNexusSignatureAlgorithm: () => string;
+  getDiscordApplicationId: () => string;
+  getDiscordBotToken: () => string;
   discord: {
     getApplicationId: () => string;
     getToken: () => string;
@@ -21,6 +23,8 @@ export const createApplicationContext = (ctx: Context<HonoEnv>): ApplicationCont
     getNexusPrivateKey: () => ctx.env.NEXUS_PRIVATE_KEY,
     getNexusPublicKey: () => ctx.env.NEXUS_PUBLIC_KEY,
     getNexusSignatureAlgorithm: () => ctx.env.NEXUS_SIGNATURE_ALGORITHM || 'ed25519',
+    getDiscordApplicationId: () => ctx.env.DISCORD_APPLICATION_ID,
+    getDiscordBotToken: () => ctx.env.DISCORD_BOT_TOKEN,
     discord: {
       getApplicationId: () => ctx.env.DISCORD_APPLICATION_ID,
       getToken: () => ctx.env.DISCORD_BOT_TOKEN,
