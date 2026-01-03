@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { ManifestStore } from './index';
 import { Manifest } from '@hiyocord/hiyocord-nexus-types';
 import { InteractionType, ApplicationCommandType } from 'discord-api-types/v10';
