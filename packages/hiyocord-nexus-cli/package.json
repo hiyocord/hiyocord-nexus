@@ -1,6 +1,6 @@
 {
   "name": "@hiyocord/hiyocord-nexus-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "command line tools for hiyocord",
   "license": "MIT",
   "author": "",
@@ -11,5 +11,10 @@
   "bin": {
     "gen-key": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "package.json"
+  ],
   "devDependencies": {}
 }
