@@ -5,6 +5,7 @@
   "compilerOptions": {
     "rootDir": "${configDir}/src",
     "baseUrl": "${configDir}/src",
+    "declarationDir": "${configDir}/dist",
 
     "lib": [
       "ESNext",
@@ -17,7 +18,9 @@
     ],
 
     "jsx": "react-jsx",
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+
+    "exactOptionalPropertyTypes": false
   },
   "include": [
     "src/**/*"

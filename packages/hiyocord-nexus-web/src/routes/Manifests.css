@@ -1,0 +1,164 @@
+.manifests-page {
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: #2c2f33;
+}
+
+.page-description {
+  margin: 0;
+  color: #72767d;
+  font-size: 1rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #72767d;
+  font-size: 1.1rem;
+}
+
+.manifest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.manifest-card {
+  background: white;
+  border: 1px solid #e3e5e8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.manifest-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.manifest-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.manifest-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.manifest-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.manifest-name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c2f33;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.manifest-id {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.875rem;
+  color: #72767d;
+  font-family: monospace;
+}
+
+.manifest-description {
+  margin: 0;
+  color: #4f5660;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.manifest-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f6f7f8;
+  border-radius: 6px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #72767d;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #5865f2;
+}
+
+.manifest-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  background-color: #5865f2;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #4752c4;
+}
+
+.btn-danger {
+  background-color: #ed4245;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c03537;
+}
+
+@media (max-width: 768px) {
+  .manifest-grid {
+    grid-template-columns: 1fr;
+  }
+}
