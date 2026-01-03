@@ -3,7 +3,6 @@ import { Manifest } from "@hiyocord/hiyocord-nexus-types";
 import { ApplicationContext } from "../application-context";
 import { DiscordApiRepository } from '../infrastructure/discord-api';
 import { ManifestStore } from '../infrastructure';
-import { ManifestResolver } from '../domain/manifest';
 
 
 const isAllowed = (manifest: Manifest, method: string, endpoint: string) => {
@@ -27,8 +26,7 @@ const isAllowed = (manifest: Manifest, method: string, endpoint: string) => {
 
 
 export const DiscordApiProxyService = async (ctx: ApplicationContext, request: Request, manifestId: string) => {
-  const manifests = await ManifestStore(ctx).findAll()
-  const manifest = ManifestResolver(manifests).byId(manifestId)
+  const manifest = await ManifestStore(ctx).findById(manifestId)
 
   const path = request.url.substring((request.headers.get("Host")?.length ?? 0) + "/proxy/discord/api/v10".length)
   console.log(`path: ${path}`)
