@@ -24,7 +24,7 @@
     "@cloudflare/workers-types": "4.20260109.0",
     "@hiyocord/tsconfig": "^0.2.0",
     "@hiyocord/wrangler-configurer": "1.0.1",
-    "@types/node": "25.0.4",
+    "@types/node": "25.0.5",
     "@vitejs/plugin-react": "5.1.2",
     "openapi-typescript": "7.10.1",
     "typescript": "5.9.3",
