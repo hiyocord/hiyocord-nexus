@@ -21,7 +21,7 @@
     "@changesets/changelog-github": "0.5.2",
     "@changesets/cli": "2.29.8",
     "@cloudflare/vite-plugin": "1.20.1",
-    "@cloudflare/workers-types": "4.20260111.0",
+    "@cloudflare/workers-types": "4.20260113.0",
     "@hiyocord/tsconfig": "^0.2.0",
     "@hiyocord/wrangler-configurer": "1.0.1",
     "@types/node": "25.0.7",
