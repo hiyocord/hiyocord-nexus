@@ -21,8 +21,13 @@ export const ApprovalStore = (ctx: ApplicationContext) => {
     await kv.put(`approval:${manifestId}`, JSON.stringify(status))
   }
 
+  const remove = async (manifestId: string): Promise<void> => {
+    await kv.delete(`approval:${manifestId}`)
+  }
+
   return {
     get,
-    set
+    set,
+    remove
   }
 }

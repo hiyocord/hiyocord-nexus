@@ -68,7 +68,17 @@ const deleteDiscordCommands = async (
 }
 
 const hasPermissionsChanged = (oldManifest: ManifestLatestVersion, newManifest: ManifestLatestVersion): boolean => {
-  return JSON.stringify(oldManifest.permissions) !== JSON.stringify(newManifest.permissions)
+  const oldPerms = JSON.stringify(oldManifest.permissions)
+  const newPerms = JSON.stringify(newManifest.permissions)
+  const changed = oldPerms !== newPerms
+
+  if (changed) {
+    console.log(`Permissions changed for manifest ${newManifest.id}`)
+    console.log('Old:', oldPerms)
+    console.log('New:', newPerms)
+  }
+
+  return changed
 }
 
 export const ManifestRegisterService = async (ctx: ApplicationContext, manifest: ManifestLatestVersion) => {
@@ -104,15 +114,19 @@ export const ManifestRegisterService = async (ctx: ApplicationContext, manifest:
       // permissionsに変更がない場合: 承認状態を維持
       await manifestStore.save(manifest)
 
-      if (currentApprovalStatus) {
-        await approvalStore.set(manifest.id, {
-          ...currentApprovalStatus,
-          updated_at: Date.now()
-        })
+      // 承認状態が存在しない場合はapprovedとして保存（後方互換性）
+      const statusToSave = currentApprovalStatus ?? {
+        status: 'approved' as const,
+        updated_at: Date.now()
       }
 
+      await approvalStore.set(manifest.id, {
+        ...statusToSave,
+        updated_at: Date.now()
+      })
+
       // 既に承認済みの場合はDiscordコマンドを再登録
-      if (currentApprovalStatus?.status === 'approved') {
+      if (statusToSave.status === 'approved') {
         return async () => {
           const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
           const manifests = await manifestStore.findAll()
@@ -146,11 +160,15 @@ export const ManifestRegisterService = async (ctx: ApplicationContext, manifest:
 
 export const ManifestDeleteService = async (ctx: ApplicationContext, manifestId: string) => {
   const manifestStore = ManifestStore(ctx)
+  const approvalStore = ApprovalStore(ctx)
 
   const deleted = await manifestStore.remove(manifestId)
   if (!deleted) {
     return null
   }
+
+  // 承認状態も削除
+  await approvalStore.remove(manifestId)
 
   // Discordコマンド再登録を非同期実行
   return async () => {

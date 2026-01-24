@@ -106,7 +106,18 @@ export function Manifests() {
                   <img src={manifest.icon_url} alt={manifest.name} className="manifest-icon" />
                 )}
                 <div className="manifest-title-section">
-                  <h3 className="manifest-name">{manifest.name}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <h3 className="manifest-name">{manifest.name}</h3>
+                    {(!manifest.approval_status || manifest.approval_status === 'pending') && (
+                      <span className="badge badge-pending">Pending</span>
+                    )}
+                    {manifest.approval_status === 'approved' && (
+                      <span className="badge badge-approved">Approved</span>
+                    )}
+                    {manifest.approval_status === 'rejected' && (
+                      <span className="badge badge-rejected">Rejected</span>
+                    )}
+                  </div>
                   <p className="manifest-id">{manifest.id}</p>
                 </div>
               </div>

@@ -83,6 +83,48 @@ paths:
         default:
           description: "Server error"
 
+  /api/manifests/{id}/approve:
+    description: "Approve a pending manifest"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: "Manifest ID"
+    post:
+      tags:
+        - Web API
+      summary: "Approve manifest"
+      responses:
+        '200':
+          description: "Successfully approved manifest"
+        '404':
+          description: "Manifest not found"
+        default:
+          description: "Server error"
+
+  /api/manifests/{id}/reject:
+    description: "Reject a pending manifest"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: "Manifest ID"
+    post:
+      tags:
+        - Web API
+      summary: "Reject manifest"
+      responses:
+        '200':
+          description: "Successfully rejected manifest"
+        '404':
+          description: "Manifest not found"
+        default:
+          description: "Server error"
+
   /.well-known/nexus-public-key:
     description: "Endpoint to retrieve Nexus public key for signature verification"
     get:
@@ -230,7 +272,20 @@ components:
 
     ManifestLatestVersion:
       type: object
-      $ref: '#/components/schemas/Manifest_V1'
+      allOf:
+        - $ref: '#/components/schemas/Manifest_V1'
+        - type: object
+          properties:
+            approval_status:
+              type: string
+              enum:
+                - pending
+                - approved
+                - rejected
+              description: "Approval status of the manifest"
+            approval_updated_at:
+              type: number
+              description: "Timestamp when approval status was last updated"
 
     ManifestAnyVersion:
       type: object
