@@ -31,6 +31,8 @@ export function ManifestDetail() {
           return;
         }
 
+        console.log('Manifest data:', data);
+        console.log('approval_status:', data?.approval_status);
         setManifest(data || null);
       } catch (err) {
         setError('サービスの取得に失敗しました');
@@ -61,6 +63,62 @@ export function ManifestDetail() {
         navigate('/manifests');
       } catch (err) {
         alert('サービスの削除に失敗しました');
+        console.error(err);
+      }
+    }
+  };
+
+  const handleApprove = async () => {
+    if (!manifest || !id) return;
+
+    if (confirm(`サービス "${manifest.name}" を承認しますか？`)) {
+      try {
+        const { error } = await client.POST('/api/manifests/{id}/approve', {
+          params: { path: { id } },
+        });
+
+        if (error) {
+          alert('サービスの承認に失敗しました');
+          return;
+        }
+
+        alert('サービスを承認しました');
+        // 承認状態を更新
+        setManifest({
+          ...manifest,
+          approval_status: 'approved',
+          approval_updated_at: Date.now(),
+        });
+      } catch (err) {
+        alert('サービスの承認に失敗しました');
+        console.error(err);
+      }
+    }
+  };
+
+  const handleReject = async () => {
+    if (!manifest || !id) return;
+
+    if (confirm(`サービス "${manifest.name}" を却下しますか？`)) {
+      try {
+        const { error } = await client.POST('/api/manifests/{id}/reject', {
+          params: { path: { id } },
+        });
+
+        if (error) {
+          alert('サービスの却下に失敗しました');
+          return;
+        }
+
+        alert('サービスを却下しました');
+        // 承認状態を更新
+        setManifest({
+          ...manifest,
+          approval_status: 'rejected',
+          approval_updated_at: Date.now(),
+        });
+      } catch (err) {
+        alert('サービスの却下に失敗しました');
         console.error(err);
       }
     }
@@ -102,13 +160,36 @@ export function ManifestDetail() {
         <div className="detail-title-section">
           {manifest.icon_url && <img src={manifest.icon_url} alt={manifest.name} className="detail-icon" />}
           <div>
-            <h2 className="detail-title">{manifest.name}</h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <h2 className="detail-title">{manifest.name}</h2>
+              {(!manifest.approval_status || manifest.approval_status === 'pending') && (
+                <span className="badge badge-pending">Pending</span>
+              )}
+              {manifest.approval_status === 'approved' && (
+                <span className="badge badge-approved">Approved</span>
+              )}
+              {manifest.approval_status === 'rejected' && (
+                <span className="badge badge-rejected">Rejected</span>
+              )}
+            </div>
             <p className="detail-id">{manifest.id}</p>
           </div>
         </div>
-        <button onClick={handleDelete} className="btn btn-danger btn-delete">
-          削除
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {(!manifest.approval_status || manifest.approval_status === 'pending') && (
+            <>
+              <button onClick={handleApprove} className="btn btn-success">
+                承認
+              </button>
+              <button onClick={handleReject} className="btn btn-warning">
+                却下
+              </button>
+            </>
+          )}
+          <button onClick={handleDelete} className="btn btn-danger btn-delete">
+            削除
+          </button>
+        </div>
       </div>
 
       <div className="detail-section">

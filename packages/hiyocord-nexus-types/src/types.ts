@@ -190,6 +190,114 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/manifests/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Manifest ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve manifest */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Manifest ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully approved manifest */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Manifest not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/manifests/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Manifest ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject manifest */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Manifest ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully rejected manifest */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Manifest not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Server error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/.well-known/nexus-public-key": {
         parameters: {
             query?: never;
@@ -477,7 +585,15 @@ export interface components {
             /** @description Base64-encoded Nexus public key */
             public_key: string;
         };
-        ManifestLatestVersion: components["schemas"]["Manifest_V1"];
+        ManifestLatestVersion: components["schemas"]["Manifest_V1"] & {
+            /**
+             * @description Approval status of the manifest
+             * @enum {string}
+             */
+            approval_status?: "pending" | "approved" | "rejected";
+            /** @description Timestamp when approval status was last updated */
+            approval_updated_at?: number;
+        };
         ManifestAnyVersion: components["schemas"]["Manifest_V1"];
         Manifest_V1: {
             /** @description Manifest schema version. */

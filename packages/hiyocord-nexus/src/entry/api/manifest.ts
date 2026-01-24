@@ -3,7 +3,9 @@ import { HonoEnv } from "../../types"
 import type { ManifestAnyVersion } from '@hiyocord/hiyocord-nexus-types'
 import { createApplicationContext } from "../../application-context"
 import { ManifestRegisterService, ManifestDeleteService } from "../../usecase/manifest"
+import { ManifestApprovalService, ManifestRejectionService } from "../../usecase/manifest-approval"
 import { ManifestStore } from "../../infrastructure/manifest"
+import { ApprovalStore } from "../../infrastructure/approval"
 import { requireAuth } from "../../middleware/auth"
 
 export default (app: Hono<HonoEnv>) => {
@@ -11,10 +13,25 @@ export default (app: Hono<HonoEnv>) => {
   app.get("/api/manifests", requireAuth, async (c) => {
     const ctx = createApplicationContext(c)
     const manifestStore = ManifestStore(ctx)
+    const approvalStore = ApprovalStore(ctx)
 
     const manifests = await manifestStore.findAll()
 
-    return c.json(manifests, 200)
+    // 各manifestに承認状態を付与
+    const manifestsWithApproval = await Promise.all(
+      manifests.map(async (manifest) => {
+        const approvalStatus = await approvalStore.get(manifest.id)
+        // 承認状態が存在しない場合はapprovedとして扱う（後方互換性）
+        const status = approvalStatus ?? { status: 'approved' as const, updated_at: 0 }
+        return {
+          ...manifest,
+          approval_status: status.status,
+          approval_updated_at: status.updated_at
+        }
+      })
+    )
+
+    return c.json(manifestsWithApproval, 200)
   })
 
   // Service Worker API: マニフェスト登録
@@ -36,6 +53,7 @@ export default (app: Hono<HonoEnv>) => {
     const manifestId = c.req.param("id")
     const ctx = createApplicationContext(c)
     const manifestStore = ManifestStore(ctx)
+    const approvalStore = ApprovalStore(ctx)
 
     const manifest = await manifestStore.findById(manifestId)
 
@@ -43,7 +61,16 @@ export default (app: Hono<HonoEnv>) => {
       return c.json({ error: "Manifest not found" }, 404)
     }
 
-    return c.json(manifest, 200)
+    // 承認状態を付与
+    const approvalStatus = await approvalStore.get(manifestId)
+    // 承認状態が存在しない場合はapprovedとして扱う（後方互換性）
+    const status = approvalStatus ?? { status: 'approved' as const, updated_at: 0 }
+
+    return c.json({
+      ...manifest,
+      approval_status: status.status,
+      approval_updated_at: status.updated_at
+    }, 200)
   })
 
   // Web API: マニフェスト削除
@@ -59,6 +86,34 @@ export default (app: Hono<HonoEnv>) => {
 
     // Discordコマンド再登録を同期実行（3秒ルールがないため）
     await registerDiscordCommands()
+
+    return c.json({}, 200)
+  })
+
+  // Web API: マニフェスト承認
+  app.post("/api/manifests/:id/approve", requireAuth, async (c) => {
+    const manifestId = c.req.param("id")
+    const ctx = createApplicationContext(c)
+
+    const result = await ManifestApprovalService(ctx, manifestId)
+
+    if (!result) {
+      return c.json({ error: "Manifest not found" }, 404)
+    }
+
+    return c.json({}, 200)
+  })
+
+  // Web API: マニフェスト却下
+  app.post("/api/manifests/:id/reject", requireAuth, async (c) => {
+    const manifestId = c.req.param("id")
+    const ctx = createApplicationContext(c)
+
+    const result = await ManifestRejectionService(ctx, manifestId)
+
+    if (!result) {
+      return c.json({ error: "Manifest not found" }, 404)
+    }
 
     return c.json({}, 200)
   })
