@@ -123,7 +123,7 @@ export const ManifestRejectionService = async (ctx: ApplicationContext, manifest
   // 既存のDiscordコマンドを削除
   const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
   const manifests = await manifestStore.findAll()
-  const { global, guild } = getCommandObject(manifests)
+  const { guild } = getCommandObject(manifests)
 
   // グローバルコマンド削除
   await deleteCommandSet(`${baseUrl}/commands`, ctx.discord.getToken())
