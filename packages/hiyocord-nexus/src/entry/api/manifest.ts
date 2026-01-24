@@ -6,7 +6,7 @@ import { ManifestRegisterService, ManifestDeleteService } from "../../usecase/ma
 import { ManifestApprovalService, ManifestRejectionService } from "../../usecase/manifest-approval"
 import { ManifestStore } from "../../infrastructure/manifest"
 import { ApprovalStore } from "../../infrastructure/approval"
-import { requireAuth } from "../../middleware/auth"
+import { requireAuth } from "../../middlewares/auth"
 
 export default (app: Hono<HonoEnv>) => {
   // Web API: マニフェスト一覧取得

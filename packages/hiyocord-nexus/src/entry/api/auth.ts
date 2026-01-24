@@ -2,6 +2,7 @@ import { Hono } from "hono"
 import { sign, verify } from "hono/jwt"
 import { getCookie } from "hono/cookie"
 import { HonoEnv } from "../../types"
+import { requireAuth } from "../../middlewares/auth"
 
 export default (app: Hono<HonoEnv>) => {
   // Web API: Discord OAuth2認証画面にリダイレクト
@@ -106,25 +107,12 @@ export default (app: Hono<HonoEnv>) => {
   })
 
   // Web API: 現在のユーザー情報取得
-  app.get("/api/auth/me", async (c) => {
-    const token = getCookie(c, 'nexus_token')
-
-    if (!token) {
-      return c.json({ error: 'Unauthorized' }, 401)
-    }
-
-    try {
-      const payload = await verify(token, c.env.JWT_SECRET) as { user_id: string; exp: number }
-
+  app.get("/api/auth/me", requireAuth, async (c) => {
       return c.json({
         user: {
-          id: payload.user_id,
+          id: c.var.user.user_id,
         },
       }, 200)
-    } catch (err) {
-      console.error('JWT verification error:', err)
-      return c.json({ error: 'Invalid token' }, 401)
-    }
   })
 
   // Web API: ログアウト

@@ -2,8 +2,9 @@ import { Context, Next } from "hono"
 import { verify } from "hono/jwt"
 import { getCookie } from "hono/cookie"
 import { HonoEnv } from "../types"
+import { createMiddleware } from "hono/factory"
 
-export const requireAuth = async (c: Context<HonoEnv>, next: Next) => {
+export const requireAuth = createMiddleware(async (c: Context<HonoEnv>, next: Next) => {
   const token = getCookie(c, 'nexus_token')
 
   if (!token) {
@@ -11,11 +12,11 @@ export const requireAuth = async (c: Context<HonoEnv>, next: Next) => {
   }
 
   try {
-    const payload = await verify(token, c.env.JWT_SECRET) as { user_id: string; exp: number }
+    const payload = await verify(token, c.env.JWT_SECRET, "HS256") as { user_id: string; exp: number }
     c.set('user', payload)
     return await next()
   } catch (err) {
     console.error('JWT verification error:', err)
     return c.json({ error: 'Invalid token' }, 401)
   }
-}
+})
