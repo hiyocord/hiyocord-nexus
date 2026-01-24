@@ -1,6 +1,7 @@
 import type { DiscordCommand, ManifestLatestVersion } from '@hiyocord/hiyocord-nexus-types'
 import { ApplicationContext } from '../application-context'
 import { ManifestStore } from '../infrastructure/manifest'
+import { ApprovalStore } from '../infrastructure/approval'
 
 const getCommandObject = (manifests: ManifestLatestVersion[]) => {
   const guildCmdManifest = manifests.map(it => it.application_commands.guild)
@@ -49,32 +50,97 @@ const registerCommandSet = async (
   }
 }
 
+const deleteDiscordCommands = async (
+  ctx: ApplicationContext,
+  global: DiscordCommand[],
+  guild: {[k: string]: DiscordCommand[]}
+) => {
+  const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
+
+  // グローバルコマンド削除
+  await registerCommandSet(`${baseUrl}/commands`, [], ctx.discord.getToken())
+
+  // ギルドコマンド削除
+  const req = Object.keys(guild).map(k =>
+    registerCommandSet(`${baseUrl}/guilds/${k}/commands`, [], ctx.discord.getToken())
+  )
+  await Promise.all(req)
+}
+
+const hasPermissionsChanged = (oldManifest: ManifestLatestVersion, newManifest: ManifestLatestVersion): boolean => {
+  return JSON.stringify(oldManifest.permissions) !== JSON.stringify(newManifest.permissions)
+}
+
 export const ManifestRegisterService = async (ctx: ApplicationContext, manifest: ManifestLatestVersion) => {
   const manifestStore = ManifestStore(ctx)
+  const approvalStore = ApprovalStore(ctx)
 
-  // 既存Manifestが存在する場合は削除（更新の場合）
+  // 既存Manifestが存在するかチェック
   const existing = await manifestStore.findById(manifest.id)
+  const currentApprovalStatus = existing ? await approvalStore.get(manifest.id) : null
+
   if (existing) {
+    // permissionsの変更チェック
+    const permissionsChanged = hasPermissionsChanged(existing, manifest)
+
+    // 既存manifestとインデックスを削除
     await manifestStore.remove(manifest.id)
-  }
 
-  // 新しいManifestを保存（インデックス含む）
-  await manifestStore.save(manifest)
+    if (permissionsChanged) {
+      // permissionsに変更がある場合: Discordコマンドを削除し、pendingにリセット
+      const { global, guild } = getCommandObject([existing])
+      await deleteDiscordCommands(ctx, global, guild)
 
-  // Discordコマンド登録を非同期実行
-  return async () => {
-    const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
-    const manifests = await manifestStore.findAll()
-    const { global, guild } = getCommandObject(manifests)
+      await manifestStore.save(manifest)
+      await approvalStore.set(manifest.id, {
+        status: 'pending',
+        updated_at: Date.now()
+      })
 
-    // グローバルコマンド登録
-    await registerCommandSet(`${baseUrl}/commands`, global, ctx.discord.getToken())
+      return async () => {
+        // 承認後に実行
+      }
+    } else {
+      // permissionsに変更がない場合: 承認状態を維持
+      await manifestStore.save(manifest)
 
-    // ギルドコマンド登録
-    const req = Object.keys(guild).map(k =>
-      registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, ctx.discord.getToken())
-    )
-    await Promise.all(req)
+      if (currentApprovalStatus) {
+        await approvalStore.set(manifest.id, {
+          ...currentApprovalStatus,
+          updated_at: Date.now()
+        })
+      }
+
+      // 既に承認済みの場合はDiscordコマンドを再登録
+      if (currentApprovalStatus?.status === 'approved') {
+        return async () => {
+          const baseUrl = `https://discord.com/api/v10/applications/${ctx.discord.getApplicationId()}`
+          const manifests = await manifestStore.findAll()
+          const { global, guild } = getCommandObject(manifests)
+
+          await registerCommandSet(`${baseUrl}/commands`, global, ctx.discord.getToken())
+          const req = Object.keys(guild).map(k =>
+            registerCommandSet(`${baseUrl}/guilds/${k}/commands`, guild[k]!, ctx.discord.getToken())
+          )
+          await Promise.all(req)
+        }
+      } else {
+        return async () => {
+          // rejected or pending: 何もしない
+        }
+      }
+    }
+  } else {
+    // 新規登録の場合
+    await manifestStore.save(manifest)
+    await approvalStore.set(manifest.id, {
+      status: 'pending',
+      updated_at: Date.now()
+    })
+
+    return async () => {
+      // 承認後に実行
+    }
   }
 }
 
