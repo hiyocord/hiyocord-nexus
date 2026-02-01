@@ -10,7 +10,6 @@ import { requireAuth } from "../../middlewares/auth"
 import { createValidator, schemaForType } from "../zod"
 import { z } from 'zod'
 import { g } from "vitest/dist/chunks/suite.d.BJWk38HB"
-import { validator } from "hono/validator"
 import { zValidator } from "@hono/zod-validator"
 import { sValidator } from "@hono/standard-validator"
 
