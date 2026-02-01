@@ -7,6 +7,13 @@ import { ManifestApprovalService, ManifestRejectionService } from "../../usecase
 import { ManifestStore } from "../../infrastructure/manifest"
 import { ApprovalStore } from "../../infrastructure/approval"
 import { requireAuth } from "../../middlewares/auth"
+import { createValidator, schemaForType } from "../zod"
+import { z } from 'zod'
+import { g } from "vitest/dist/chunks/suite.d.BJWk38HB"
+import { validator } from "hono/validator"
+import { zValidator } from "@hono/zod-validator"
+import { sValidator } from "@hono/standard-validator"
+
 
 export default (app: Hono<HonoEnv>) => {
   // Web API: マニフェスト一覧取得
@@ -34,15 +41,31 @@ export default (app: Hono<HonoEnv>) => {
     return c.json(manifestsWithApproval, 200)
   })
 
+  const schama = z.object({
+    id: z.string(),
+    name: z.string(),
+    version: z.string(),
+    description: z.string().optional(),
+    base_url: z.string(),
+    application_commands: z.object({
+      global: z.any(),
+      guild: z.any(),
+    }),
+    message_component_ids: z.array(z.string()),
+    modal_submit_ids: z.array(z.string()),
+    permissions: z.any(),
+    signature_algorithm: z.enum(["ed25519", "ecdsa-p256", "rsa-pss-2048"]),
+    public_key: z.string(),
+  }) satisfies z.ZodType<ManifestAnyVersion>
+
   // Service Worker API: マニフェスト登録
-  // TODO 認証方法検討
-  app.post("/api/manifests", async (c) => {
-    const manifest = await c.req.json() as ManifestAnyVersion
+  app.post("/api/manifests", sValidator("json", schama), async (c) => {
+    const manifest = c.req.valid("json")
     const ctx = createApplicationContext(c)
 
     const registerDiscordCommands = await ManifestRegisterService(ctx, manifest)
 
-    // Discordコマンド登録を同期実行（3秒ルールがないため）
+    // Discordコマンド登録を同期実行
     await registerDiscordCommands()
 
     return c.json({}, 200)
