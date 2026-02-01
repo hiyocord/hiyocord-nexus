@@ -15,7 +15,11 @@
   "dependencies": {
     "@hiyocord/hiyocord-nexus-core": "^0.7.0",
     "@hiyocord/hiyocord-nexus-types": "^0.5.0",
+    "@hono/standard-validator": "^0.2.2",
+    "@hono/zod-openapi": "^1.2.0",
+    "@hono/zod-validator": "^0.7.6",
     "discord-interactions": "^4.4.0",
-    "hono": "^4.11.7"
+    "hono": "^4.11.7",
+    "zod": "^4.3.6"
   }
 }
