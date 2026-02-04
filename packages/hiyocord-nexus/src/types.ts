@@ -12,6 +12,7 @@ export type HonoEnv = {
     NEXUS_PUBLIC_KEY: string; // Ed25519 public key (for distribution to service workers)
     NEXUS_SIGNATURE_ALGORITHM?: string; // Signature algorithm (default: ed25519)
     JWT_SECRET: string; // JWT signing secret for web authentication
+    LOGIN_ALLOW_USER: string; // Allowed users for login (for basic auth)
   },
   Variables: {
     manifestId: string; // Service worker manifest ID (set by verifyServiceWorker middleware)

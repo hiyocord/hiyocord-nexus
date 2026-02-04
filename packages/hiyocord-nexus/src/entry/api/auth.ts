@@ -3,6 +3,7 @@ import { sign, verify } from "hono/jwt"
 import { getCookie } from "hono/cookie"
 import { HonoEnv } from "../../types"
 import { requireAuth } from "../../middlewares/auth"
+import { getClient } from "@hiyocord/discord-rest-api"
 
 export default (app: Hono<HonoEnv>) => {
   // Web API: Discord OAuth2認証画面にリダイレクト
@@ -62,28 +63,19 @@ export default (app: Hono<HonoEnv>) => {
       const tokenData = await tokenResponse.json() as { access_token: string }
 
       // Discordユーザー情報取得
-      const userResponse = await fetch('https://discord.com/api/v10/users/@me', {
-        headers: {
-          Authorization: `Bearer ${tokenData.access_token}`,
-        },
-      })
+      const { response, data} = await getClient(tokenData.access_token).GET('/users/@me')
 
-      if (!userResponse.ok) {
-        console.error('Failed to get Discord user:', await userResponse.text())
+      if (!response.ok) {
+        console.error('Failed to get Discord user:', await response.text())
         return c.json({ error: 'Failed to get user information' }, 401)
-      }
-
-      const user = await userResponse.json() as {
-        id: string
-        username: string
-        discriminator: string
-        avatar: string | null
+      } else if(!c.env.LOGIN_ALLOW_USER.split(',').includes(data!.id)) {
+        return c.json({ error: 'User not allowed to login' }, 403)
       }
 
       // JWT生成
       const token = await sign(
         {
-          user_id: user.id,
+          user_id: data!.id,
           exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7日間有効
         },
         c.env.JWT_SECRET
@@ -94,10 +86,10 @@ export default (app: Hono<HonoEnv>) => {
 
       return c.json({
         user: {
-          id: user.id,
-          username: user.username,
-          discriminator: user.discriminator,
-          avatar: user.avatar,
+          id: data!.id,
+          username: data!.username,
+          discriminator: data!.discriminator,
+          avatar: data!.avatar,
         },
       }, 200)
     } catch (err) {
