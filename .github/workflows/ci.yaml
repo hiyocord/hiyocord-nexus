@@ -73,6 +73,9 @@ jobs:
         with:
           path: "node_modules"
           key: node_modules-${{ hashFiles('package-lock.json') }}
+      - run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/cache/restore@v5
         with:
           path: packages/**/dist
