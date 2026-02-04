@@ -1,10 +1,9 @@
-import { Context, Next } from "hono"
 import { verify } from "hono/jwt"
 import { getCookie } from "hono/cookie"
 import { HonoEnv } from "../types"
 import { createMiddleware } from "hono/factory"
 
-export const requireAuth = createMiddleware(async (c: Context<HonoEnv>, next: Next) => {
+export const requireAuth = createMiddleware<HonoEnv & { Variables: {user: { user_id: string; exp: number }} }>(async (c, next) => {
   const token = getCookie(c, 'nexus_token')
 
   if (!token) {
