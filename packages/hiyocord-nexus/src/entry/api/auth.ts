@@ -1,6 +1,5 @@
 import { Hono } from "hono"
-import { sign, verify } from "hono/jwt"
-import { getCookie } from "hono/cookie"
+import { sign } from "hono/jwt"
 import { HonoEnv } from "../../types"
 import { requireAuth } from "../../middlewares/auth"
 import { getClient } from "@hiyocord/discord-rest-api"
