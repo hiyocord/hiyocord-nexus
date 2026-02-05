@@ -61,20 +61,21 @@ export default (app: Hono<HonoEnv>) => {
 
       const tokenData = await tokenResponse.json() as { access_token: string }
 
+      console.log('Discord token data:', tokenData )
       // Discordユーザー情報取得
-      const { response, data} = await getClient(tokenData.access_token).GET('/users/@me')
+      const { response, data: user} = await getClient(tokenData.access_token, {tokenType: "Bearer"}).GET('/users/@me')
 
       if (!response.ok) {
-        console.error('Failed to get Discord user:', await response.text())
+        console.error('Failed to get Discord user:', user)
         return c.json({ error: 'Failed to get user information' }, 401)
-      } else if(!c.env.LOGIN_ALLOW_USER.split(',').includes(data!.id)) {
+      } else if(!c.env.LOGIN_ALLOW_USER.split(',').includes(user!.id)) {
         return c.json({ error: 'User not allowed to login' }, 403)
       }
 
       // JWT生成
       const token = await sign(
         {
-          user_id: data!.id,
+          user_id: user!.id,
           exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7日間有効
         },
         c.env.JWT_SECRET
@@ -85,10 +86,10 @@ export default (app: Hono<HonoEnv>) => {
 
       return c.json({
         user: {
-          id: data!.id,
-          username: data!.username,
-          discriminator: data!.discriminator,
-          avatar: data!.avatar,
+          id: user!.id,
+          username: user!.username,
+          discriminator: user!.discriminator,
+          avatar: user!.avatar,
         },
       }, 200)
     } catch (err) {

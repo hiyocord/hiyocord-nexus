@@ -17,6 +17,13 @@ export default {
     kv_namespaces: [{
       binding: "KV",
       id: process.env["HIYOCORD_NEXUS_KV_ID"]
-    }]
+    }],
+     routes: [
+      {
+        "pattern": "nexus.hiyocord.org",
+        "zone_name": "hiyocord.org",
+        "custom_domain": true
+      }
+     ]
   }
 } satisfies WranglerConfigurerOptions
