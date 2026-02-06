@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.7.1
+
+### Patch Changes
+
+- [`ceb8102`](https://github.com/hiyocord/hiyocord-nexus/commit/ceb8102978089ed4bb6560e432c7f2e0d6cff19c) Thanks [@kurages](https://github.com/kurages)! - fix: add exports field to package.json
+
 ## 0.7.0
 
 ### Minor Changes
