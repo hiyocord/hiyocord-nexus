@@ -20,7 +20,7 @@
     "@hono/zod-openapi": "^1.2.1",
     "@hono/zod-validator": "^0.7.6",
     "discord-interactions": "^4.4.0",
-    "hono": "^4.11.7",
+    "hono": "^4.11.8",
     "zod": "^4.3.6"
   }
 }
