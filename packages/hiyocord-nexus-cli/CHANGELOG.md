@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-cli
 
+## 0.2.1
+
+### Patch Changes
+
+- [`847ba53`](https://github.com/hiyocord/hiyocord-nexus/commit/847ba53bb5bb81fb0f39d1873b681a624e40c162) Thanks [@kurages](https://github.com/kurages)! - fix check entry point path
+
 ## 0.2.0
 
 ### Minor Changes
