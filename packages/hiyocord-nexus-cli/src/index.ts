@@ -4,11 +4,13 @@ import { Command } from "./command.js";
 import { exit } from "node:process";
 import genKey from "./gen-key.js";
 import { basename } from "node:path";
+import manifest from "./manifest/index.js";
 
 async function main() {
   const commandName = basename(process.argv[1]);
   const command = [
-    genKey
+    genKey,
+    manifest
   ].find(it => it.name === commandName);
 
   if(command == undefined) {

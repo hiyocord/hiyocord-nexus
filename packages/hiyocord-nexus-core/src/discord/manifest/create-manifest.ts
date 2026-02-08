@@ -3,9 +3,9 @@ import type {
   ApplicationCommandHandler,
   DeferredApplicationCommandHandler,
 } from "@hiyocord/discord-interaction-client";
-import { InteractionType } from "@hiyocord/discord-interaction-client";
 import type { NexusManifest, CreateManifestOptions } from "./types";
 import type { ManifestLatestVersion } from "@hiyocord/hiyocord-nexus-types";
+import { InteractionType } from "discord-api-types/v10";
 
 /**
  * Create a Nexus manifest from an InteractionHandlerRegistry
