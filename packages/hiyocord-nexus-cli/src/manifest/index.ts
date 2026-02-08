@@ -3,7 +3,7 @@ import { defineCommand, } from "../command.js";
 import { z } from "zod";
 import type { InteractionHandlerRegistry } from "@hiyocord/discord-interaction-client";
 import { createManifest } from "@hiyocord/hiyocord-nexus-core";
-import { dirname, relative } from "node:path";
+import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync } from "node:fs";
 
@@ -75,8 +75,10 @@ export default defineCommand("manifest",
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const file = `${relative(__dirname, process.cwd())}/${values.entryPoint}`
-    if (!existsSync(file)) {
-      console.error(`entryPoint not found: ${file}`);
+
+    const filePath = resolve(process.cwd(), values.entryPoint);
+    if (!existsSync(filePath)) {
+      console.error(`entryPoint not found: ${filePath}`);
       return 1
     }
     console.error(`loading: ${file}`)
