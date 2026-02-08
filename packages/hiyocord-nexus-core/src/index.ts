@@ -1,4 +1,6 @@
+export type { Env } from './middlewares'
 export * from './middlewares'
+export type { AlgorithmName, SignatureAlgorithm } from './authentication'
 export * from './authentication'
-export * from './discord/manifest'
-export * from './discord/interaction'
+export type { CreateManifestOptions, NexusManifest } from './discord/manifest'
+export { createManifest } from "./discord/manifest";

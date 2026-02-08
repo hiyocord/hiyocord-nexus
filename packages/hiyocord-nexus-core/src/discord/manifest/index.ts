@@ -1,2 +1,5 @@
-export * from "./types";
-export * from "./create-manifest";
+export type {
+  CreateManifestOptions,
+  NexusManifest
+} from "./types";
+export { createManifest } from "./create-manifest";
