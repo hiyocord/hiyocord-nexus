@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.7.2
+
+### Patch Changes
+
+- [#109](https://github.com/hiyocord/hiyocord-nexus/pull/109) [`01f3b98`](https://github.com/hiyocord/hiyocord-nexus/commit/01f3b9857ae378bb24a2c87c10eeedff8f845c62) Thanks [@kurages](https://github.com/kurages)! - cli 実装
+
 ## 0.7.1
 
 ### Patch Changes
