@@ -24,7 +24,7 @@
     "@hiyocord/hiyocord-nexus-types": "^0.5.0",
     "discord-api-types": "^0.38.38",
     "hono": "^4.11.8",
-    "openapi-fetch": "^0.15.0"
+    "openapi-fetch": "^0.16.0"
   },
   "devDependencies": {
     "@hiyocord/tsconfig": "^0.2.0"
