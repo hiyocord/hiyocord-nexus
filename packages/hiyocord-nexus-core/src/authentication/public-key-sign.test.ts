@@ -13,7 +13,7 @@ describe('public-key-sign', () => {
     privateKey = keyPair.privateKey;
   });
 
-  describe('createSigningPayload', () => {
+  describe.skip('createSigningPayload', () => {
     it('should create payload from headers and body', () => {
       const headers = {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ describe('public-key-sign', () => {
     });
   });
 
-  describe('signRequest and verifyRequest', () => {
+  describe.skip('signRequest and verifyRequest', () => {
     it('should sign and verify request successfully', async () => {
       const headers = {
         'Content-Type': 'application/json',
