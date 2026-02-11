@@ -1,5 +1,12 @@
 # @hiyocord/hiyocord-nexus-cli
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`3a52218`](https://github.com/hiyocord/hiyocord-nexus/commit/3a522184195388983a2bc39d891cbcd62f4ee5ef)]:
+  - @hiyocord/hiyocord-nexus-core@0.8.0
+
 ## 0.2.1
 
 ### Patch Changes
