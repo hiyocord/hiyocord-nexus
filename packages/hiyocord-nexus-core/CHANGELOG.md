@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.8.0
+
+### Minor Changes
+
+- [`3a52218`](https://github.com/hiyocord/hiyocord-nexus/commit/3a522184195388983a2bc39d891cbcd62f4ee5ef) Thanks [@kurages](https://github.com/kurages)! - 含めるヘッダーを固定する
+
 ## 0.7.2
 
 ### Patch Changes
