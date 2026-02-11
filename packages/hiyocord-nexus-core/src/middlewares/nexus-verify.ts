@@ -33,6 +33,7 @@ export const getNexusVerifyMiddleware = (publicKeyEnv: string) => {
     if (verify) {
       return await next();
     } else {
+      console.warn(`received invalid signature: timestamp=${headerTimestamp} signature=${signature} algorithm=${algorithm}`);
       return c.text("Invalid request signature", { status: 401 });
     }
   })

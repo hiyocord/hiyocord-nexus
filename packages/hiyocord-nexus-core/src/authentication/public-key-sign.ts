@@ -34,8 +34,7 @@ export const canonicalizeHeaders = (headers: Record<string, string>): string => 
       if (a.key < b.key) return -1;
       return 0;
     })
-    .filter(it => !['host', 'x-hiyocord-signature', 'x-hiyocord-algorithm', 'content-length'].includes(it.key))
-    .filter(it => !it.key.startsWith('cf-'))
+    .filter(it => ["x-hiyocord-timestamp", "x-hiyocord-algorithm", "x-signature-ed25519", "x-signature-timestamp"].includes(it.key))
     .map(it => `${it.key}:${it.value}`)
     .join('\n');
 };
@@ -98,10 +97,15 @@ export const verifyRequest = async (
   headers: Record<string, string>,
   body: ArrayBuffer | undefined
 ): Promise<boolean> => {
-  const signature = headers['x-hiyocord-signature'] || headers['X-Hiyocord-Signature'];
-  const timestamp = headers['x-hiyocord-timestamp'] || headers['X-Hiyocord-Timestamp'];
+  const getHeader = (name: string) => Object.entries(headers)
+      .filter(([k, _]) => k.toLowerCase() === name.toLowerCase())
+      .map(([_, v]) => v)
+      .find(() => true);
+  const signature = getHeader("x-hiyocord-signature");
+  const timestamp = getHeader("x-hiyocord-timestamp");
 
   if (!signature || !timestamp) {
+    console.warn(`rejected request with missing signature or timestamp: timestamp=${timestamp} signature=${signature}`);
     return false;
   }
 
@@ -109,6 +113,7 @@ export const verifyRequest = async (
   const now = Date.now();
   const requestTime = parseInt(timestamp, 10);
   if (isNaN(requestTime) || Math.abs(now - requestTime) > 60_000) {
+    console.warn(`rejected request with invalid timestamp: ${timestamp}`);
     return false;
   }
 
