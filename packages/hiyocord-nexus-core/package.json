@@ -22,8 +22,8 @@
     "@hiyocord/discord-interaction-client": "^0.2.2",
     "@hiyocord/discord-rest-api": "^2.2.1",
     "@hiyocord/hiyocord-nexus-types": "^0.5.0",
-    "discord-api-types": "^0.38.38",
-    "hono": "^4.11.8",
+    "discord-api-types": "^0.38.39",
+    "hono": "^4.11.9",
     "openapi-fetch": "^0.17.0"
   },
   "devDependencies": {
