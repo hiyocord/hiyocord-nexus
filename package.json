@@ -27,11 +27,11 @@
     "@types/node": "25.5.0",
     "@vitejs/plugin-react": "6.0.1",
     "openapi-typescript": "7.13.0",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vite": "8.0.2",
     "vite-plugin-dts": "4.5.4",
     "vite-tsconfig-paths": "6.1.1",
-    "vitest": "4.1.0"
+    "vitest": "4.1.1"
   },
   "dependencies": {
     "@hiyocord/discord-rest-api": "^2.0.0"
