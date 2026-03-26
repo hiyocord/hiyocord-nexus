@@ -138,10 +138,6 @@ paths:
         default:
           description: "Server error"
 
-  /api/proxy/discord/v10:
-    summary: discord api v10 proxy
-    description: schema ref discord api v10
-
   /api/auth/discord/authorize:
     description: "Discord OAuth2 authorization redirect endpoint"
     get:
@@ -250,6 +246,429 @@ paths:
                 type: object
         default:
           description: "Server error"
+
+  # discord api proxy
+  /api/proxy/discord/v10/applications/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1@me"
+
+  /api/proxy/discord/v10/applications/{application_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}"
+
+  /api/proxy/discord/v10/applications/{application_id}/activity-instances/{instance_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1activity-instances~1{instance_id}"
+
+  /api/proxy/discord/v10/applications/{application_id}/attachment:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1attachment"
+
+  /api/proxy/discord/v10/applications/{application_id}/commands:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1commands"
+
+  /api/proxy/discord/v10/applications/{application_id}/commands/{command_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1commands~1{command_id}"
+
+  /api/proxy/discord/v10/applications/{application_id}/emojis:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1emojis"
+
+  /api/proxy/discord/v10/applications/{application_id}/emojis/{emoji_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1emojis~1{emoji_id}"
+
+  /api/proxy/discord/v10/applications/{application_id}/entitlements:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1entitlements"
+
+  /api/proxy/discord/v10/applications/{application_id}/entitlements/{entitlement_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1entitlements~1{entitlement_id}"
+
+  /api/proxy/discord/v10/applications/{application_id}/entitlements/{entitlement_id}/consume:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1entitlements~1{entitlement_id}~1consume"
+
+  /api/proxy/discord/v10/applications/{application_id}/guilds/{guild_id}/commands:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1guilds~1{guild_id}~1commands"
+
+  /api/proxy/discord/v10/applications/{application_id}/guilds/{guild_id}/commands/permissions:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1guilds~1{guild_id}~1commands~1permissions"
+
+  /api/proxy/discord/v10/applications/{application_id}/guilds/{guild_id}/commands/{command_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1guilds~1{guild_id}~1commands~1{command_id}"
+
+  /api/proxy/discord/v10/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1guilds~1{guild_id}~1commands~1{command_id}~1permissions"
+
+  /api/proxy/discord/v10/applications/{application_id}/role-connections/metadata:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1applications~1{application_id}~1role-connections~1metadata"
+
+  /api/proxy/discord/v10/channels/{channel_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/followers:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1followers"
+
+  /api/proxy/discord/v10/channels/{channel_id}/invites:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1invites"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/bulk-delete:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1bulk-delete"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/pins:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1pins"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/pins/{message_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1pins~1{message_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}/crosspost:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}~1crosspost"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}/reactions:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}~1reactions"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}~1reactions~1{emoji_name}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}~1reactions~1{emoji_name}~1@me"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}~1reactions~1{emoji_name}~1{user_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/messages/{message_id}/threads:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1messages~1{message_id}~1threads"
+
+  /api/proxy/discord/v10/channels/{channel_id}/permissions/{overwrite_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1permissions~1{overwrite_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/pins:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1pins"
+
+  /api/proxy/discord/v10/channels/{channel_id}/pins/{message_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1pins~1{message_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/polls/{message_id}/answers/{answer_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1polls~1{message_id}~1answers~1{answer_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/polls/{message_id}/expire:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1polls~1{message_id}~1expire"
+
+  /api/proxy/discord/v10/channels/{channel_id}/recipients/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1recipients~1{user_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/send-soundboard-sound:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1send-soundboard-sound"
+
+  /api/proxy/discord/v10/channels/{channel_id}/thread-members:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1thread-members"
+
+  /api/proxy/discord/v10/channels/{channel_id}/thread-members/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1thread-members~1@me"
+
+  /api/proxy/discord/v10/channels/{channel_id}/thread-members/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1thread-members~1{user_id}"
+
+  /api/proxy/discord/v10/channels/{channel_id}/threads:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1threads"
+
+  /api/proxy/discord/v10/channels/{channel_id}/threads/archived/private:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1threads~1archived~1private"
+
+  /api/proxy/discord/v10/channels/{channel_id}/threads/archived/public:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1threads~1archived~1public"
+
+  /api/proxy/discord/v10/channels/{channel_id}/threads/search:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1threads~1search"
+
+  /api/proxy/discord/v10/channels/{channel_id}/typing:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1typing"
+
+  /api/proxy/discord/v10/channels/{channel_id}/users/@me/threads/archived/private:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1users~1@me~1threads~1archived~1private"
+
+  /api/proxy/discord/v10/channels/{channel_id}/webhooks:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1channels~1{channel_id}~1webhooks"
+
+  /api/proxy/discord/v10/gateway:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1gateway"
+
+  /api/proxy/discord/v10/gateway/bot:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1gateway~1bot"
+
+  /api/proxy/discord/v10/guilds/templates/{code}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1templates~1{code}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/audit-logs:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1audit-logs"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/auto-moderation/rules:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1auto-moderation~1rules"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/auto-moderation/rules/{rule_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1auto-moderation~1rules~1{rule_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/bans:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1bans"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/bans/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1bans~1{user_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/bulk-ban:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1bulk-ban"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/channels:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1channels"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/emojis:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1emojis"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/emojis/{emoji_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1emojis~1{emoji_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/integrations:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1integrations"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/integrations/{integration_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1integrations~1{integration_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/invites:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1invites"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/members:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1members"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/members/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1members~1@me"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/members/search:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1members~1search"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/members/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1members~1{user_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/members/{user_id}/roles/{role_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1members~1{user_id}~1roles~1{role_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/messages/search:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1messages~1search"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/new-member-welcome:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1new-member-welcome"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/onboarding:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1onboarding"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/preview:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1preview"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/prune:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1prune"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/regions:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1regions"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/roles:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1roles"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/roles/member-counts:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1roles~1member-counts"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/roles/{role_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1roles~1{role_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/scheduled-events:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1scheduled-events"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1scheduled-events~1{guild_scheduled_event_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1scheduled-events~1{guild_scheduled_event_id}~1users"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/soundboard-sounds:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1soundboard-sounds"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/soundboard-sounds/{sound_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1soundboard-sounds~1{sound_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/stickers:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1stickers"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/stickers/{sticker_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1stickers~1{sticker_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/templates:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1templates"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/templates/{code}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1templates~1{code}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/threads/active:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1threads~1active"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/vanity-url:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1vanity-url"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/voice-states/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1voice-states~1@me"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/voice-states/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1voice-states~1{user_id}"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/webhooks:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1webhooks"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/welcome-screen:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1welcome-screen"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/widget:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1widget"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/widget.json:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1widget.json"
+
+  /api/proxy/discord/v10/guilds/{guild_id}/widget.png:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1guilds~1{guild_id}~1widget.png"
+
+  /api/proxy/discord/v10/interactions/{interaction_id}/{interaction_token}/callback:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1interactions~1{interaction_id}~1{interaction_token}~1callback"
+
+  /api/proxy/discord/v10/invites/{code}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1invites~1{code}"
+
+  /api/proxy/discord/v10/invites/{code}/target-users:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1invites~1{code}~1target-users"
+
+  /api/proxy/discord/v10/invites/{code}/target-users/job-status:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1invites~1{code}~1target-users~1job-status"
+
+  /api/proxy/discord/v10/lobbies:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/channel-linking:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1channel-linking"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/members/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1members~1@me"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/members/@me/invites:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1members~1@me~1invites"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/members/bulk:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1members~1bulk"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/members/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1members~1{user_id}"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/members/{user_id}/invites:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1members~1{user_id}~1invites"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/messages:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1messages"
+
+  /api/proxy/discord/v10/lobbies/{lobby_id}/messages/{message_id}/moderation-metadata:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1lobbies~1{lobby_id}~1messages~1{message_id}~1moderation-metadata"
+
+  /api/proxy/discord/v10/oauth2/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1oauth2~1@me"
+
+  /api/proxy/discord/v10/oauth2/applications/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1oauth2~1applications~1@me"
+
+  /api/proxy/discord/v10/oauth2/keys:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1oauth2~1keys"
+
+  /api/proxy/discord/v10/oauth2/userinfo:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1oauth2~1userinfo"
+
+  /api/proxy/discord/v10/partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1partner-sdk~1dms~1{user_id_1}~1{user_id_2}~1messages~1{message_id}~1moderation-metadata"
+
+  /api/proxy/discord/v10/partner-sdk/provisional-accounts/unmerge:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1partner-sdk~1provisional-accounts~1unmerge"
+
+  /api/proxy/discord/v10/partner-sdk/provisional-accounts/unmerge/bot:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1partner-sdk~1provisional-accounts~1unmerge~1bot"
+
+  /api/proxy/discord/v10/partner-sdk/token:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1partner-sdk~1token"
+
+  /api/proxy/discord/v10/partner-sdk/token/bot:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1partner-sdk~1token~1bot"
+
+  /api/proxy/discord/v10/soundboard-default-sounds:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1soundboard-default-sounds"
+
+  /api/proxy/discord/v10/stage-instances:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1stage-instances"
+
+  /api/proxy/discord/v10/stage-instances/{channel_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1stage-instances~1{channel_id}"
+
+  /api/proxy/discord/v10/sticker-packs:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1sticker-packs"
+
+  /api/proxy/discord/v10/sticker-packs/{pack_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1sticker-packs~1{pack_id}"
+
+  /api/proxy/discord/v10/stickers/{sticker_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1stickers~1{sticker_id}"
+
+  /api/proxy/discord/v10/users/@me:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me"
+
+  /api/proxy/discord/v10/users/@me/applications/{application_id}/entitlements:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1applications~1{application_id}~1entitlements"
+
+  /api/proxy/discord/v10/users/@me/applications/{application_id}/role-connection:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1applications~1{application_id}~1role-connection"
+
+  /api/proxy/discord/v10/users/@me/channels:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1channels"
+
+  /api/proxy/discord/v10/users/@me/connections:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1connections"
+
+  /api/proxy/discord/v10/users/@me/guilds:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1guilds"
+
+  /api/proxy/discord/v10/users/@me/guilds/{guild_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1guilds~1{guild_id}"
+
+  /api/proxy/discord/v10/users/@me/guilds/{guild_id}/member:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1@me~1guilds~1{guild_id}~1member"
+
+  /api/proxy/discord/v10/users/{user_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1users~1{user_id}"
+
+  /api/proxy/discord/v10/voice/regions:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1voice~1regions"
+
+  /api/proxy/discord/v10/webhooks/{webhook_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1webhooks~1{webhook_id}"
+
+  /api/proxy/discord/v10/webhooks/{webhook_id}/{webhook_token}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1webhooks~1{webhook_id}~1{webhook_token}"
+
+  /api/proxy/discord/v10/webhooks/{webhook_id}/{webhook_token}/github:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1webhooks~1{webhook_id}~1{webhook_token}~1github"
+
+  /api/proxy/discord/v10/webhooks/{webhook_id}/{webhook_token}/messages/@original:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1webhooks~1{webhook_id}~1{webhook_token}~1messages~1@original"
+
+  /api/proxy/discord/v10/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1webhooks~1{webhook_id}~1{webhook_token}~1messages~1{message_id}"
+
+  /api/proxy/discord/v10/webhooks/{webhook_id}/{webhook_token}/slack:
+    $ref: "https://raw.githubusercontent.com/discord/discord-api-spec/refs/heads/main/specs/openapi.json#/paths/~1webhooks~1{webhook_id}~1{webhook_token}~1slack"
+
+
 
 components:
   schemas:
