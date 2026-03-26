@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.8.1
+
+### Patch Changes
+
+- [`8eb62c7`](https://github.com/hiyocord/hiyocord-nexus/commit/8eb62c7459c9ef0a502c040052a817f218aaf041) Thanks [@kurages](https://github.com/kurages)! - fix: return client from createNexusFetch function
+
 ## 0.8.0
 
 ### Minor Changes
