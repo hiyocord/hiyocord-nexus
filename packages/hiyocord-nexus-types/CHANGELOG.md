@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-types
 
+## 0.5.1
+
+### Patch Changes
+
+- [`34db9ab`](https://github.com/hiyocord/hiyocord-nexus/commit/34db9ab412f4e849290b1299168fa283f9e723d9) Thanks [@kurages](https://github.com/kurages)! - Refactor code structure for improved readability and maintainability
+
 ## 0.5.0
 
 ### Minor Changes

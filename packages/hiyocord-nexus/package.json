@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@hiyocord/discord-rest-api": "^2.2.0",
-    "@hiyocord/hiyocord-nexus-core": "^0.8.1",
-    "@hiyocord/hiyocord-nexus-types": "^0.5.0",
+    "@hiyocord/hiyocord-nexus-core": "^0.8.2",
+    "@hiyocord/hiyocord-nexus-types": "^0.5.1",
     "@hono/standard-validator": "^0.2.2",
     "@hono/zod-openapi": "^1.2.2",
     "@hono/zod-validator": "^0.7.6",
