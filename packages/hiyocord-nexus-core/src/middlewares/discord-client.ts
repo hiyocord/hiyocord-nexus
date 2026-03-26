@@ -39,6 +39,8 @@ export const createNexusFetch = (url: string, privateKey: string, algorithm: Alg
       })
     }
   })
+
+  return client
 }
 
 export const useNexusFetch = createMiddleware<Env>((c, next) => {
