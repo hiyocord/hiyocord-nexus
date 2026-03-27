@@ -1,5 +1,11 @@
 # @hiyocord/hiyocord-nexus-types
 
+## 0.5.2
+
+### Patch Changes
+
+- [`aa03fd4`](https://github.com/hiyocord/hiyocord-nexus/commit/aa03fd40acd3ceecd1c83fe9b1b8c11c06b4f4ab) Thanks [@kurages](https://github.com/kurages)! - discord api proxy 用の middleware を実装
+
 ## 0.5.1
 
 ### Patch Changes
