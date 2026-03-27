@@ -34,21 +34,38 @@ export function createManifest(
   // Get all ApplicationCommand handlers from registry
   const handlers: (ApplicationCommandHandler | DeferredApplicationCommandHandler)[] = registry.get(InteractionType.ApplicationCommand);
 
+  const getOptions = (it: ApplicationCommandHandler | DeferredApplicationCommandHandler) => {
+    if(!it.options) {
+      return null;
+    }
+    return it.options.map(opt => ({
+        type: opt.type,
+        name: opt.name,
+        name_localizations: null,
+        description: opt.description,
+        description_localizations: null,
+        autocomplete: opt.autocomplete ?? null,
+        min_length: opt.min_length ?? null,
+        max_length: opt.max_length ?? null,
+        required: opt.required ?? null
+      }))
+  }
+
   // Convert handlers to Nexus command definitions
-  const globalCommands = handlers.filter(it => it.guildIds.length == 0).map(
+  const globalCommands = handlers.filter(it => it.guildIds?.length == 0).map(it => {
+    return {
+      name: it.name,
+      description: it.description,
+      options: getOptions(it)
+    } satisfies ManifestLatestVersion["application_commands"]["global"][number]
+  });
+  const guildCommands = handlers.filter(it => it.guildIds?.length??0 > 0).map(
     it => {
       return {
         name: it.name,
         description: it.description,
-      } satisfies ManifestLatestVersion["application_commands"]["global"][number];
-    },
-  );
-  const guildCommands = handlers.filter(it => it.guildIds.length > 0).map(
-    it => {
-      return {
-        name: it.name,
-        description: it.description,
-        guild_id: it.guildIds
+        guild_id: it.guildIds!,
+        options: getOptions(it)
       } satisfies ManifestLatestVersion["application_commands"]["guild"][number];
     },
   );

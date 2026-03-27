@@ -2,8 +2,7 @@ import { paths as nexus_paths } from "@hiyocord/hiyocord-nexus-types";
 import { AlgorithmName, signRequest } from "../authentication";
 import { createMiddleware } from "hono/factory";
 import createClient, { ClientOptions } from "openapi-fetch";
-import { getClient, paths as discord_paths } from "@hiyocord/discord-rest-api";
-import { url } from "node:inspector";
+import { paths as discord_paths } from "@hiyocord/discord-rest-api";
 
 export type Env = {
   Bindings: {

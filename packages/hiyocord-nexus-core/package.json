@@ -19,8 +19,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@hiyocord/discord-interaction-client": "^0.2.2",
-    "@hiyocord/discord-rest-api": "^2.2.1",
+    "@hiyocord/discord-interaction-client": "^0.5.10",
     "@hiyocord/hiyocord-nexus-types": "^0.5.2",
     "discord-api-types": "^0.38.38",
     "hono": "^4.12.0",
