@@ -1,5 +1,14 @@
 # @hiyocord/hiyocord-nexus-core
 
+## 0.8.4
+
+### Patch Changes
+
+- [`8208cd7`](https://github.com/hiyocord/hiyocord-nexus/commit/8208cd7399cef6f159b6c29cea638c973c20140a) Thanks [@kurages](https://github.com/kurages)! - スラコマのオプション実装
+
+- Updated dependencies [[`8208cd7`](https://github.com/hiyocord/hiyocord-nexus/commit/8208cd7399cef6f159b6c29cea638c973c20140a)]:
+  - @hiyocord/hiyocord-nexus-types@0.5.3
+
 ## 0.8.3
 
 ### Patch Changes
