@@ -14,9 +14,9 @@
     "@hiyocord/hiyocord-nexus-core": "^0.8.4",
     "@hiyocord/hiyocord-nexus-types": "^0.5.3",
     "openapi-fetch": "^0.17.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.0"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.14.0"
   },
   "devDependencies": {
     "@types/react": "19.2.14",
