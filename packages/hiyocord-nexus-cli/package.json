@@ -21,6 +21,6 @@
     "@hiyocord/discord-interaction-client": "^0.2.2",
     "@hiyocord/hiyocord-nexus-core": "^0.8.2",
     "@hiyocord/hiyocord-nexus-types": "^0.5.1",
-    "zod": "^4.3.6"
+    "zod": "^4.4.1"
   }
 }
