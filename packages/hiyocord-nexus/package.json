@@ -17,10 +17,10 @@
     "@hiyocord/hiyocord-nexus-core": "^0.8.4",
     "@hiyocord/hiyocord-nexus-types": "^0.5.3",
     "@hono/standard-validator": "^0.2.2",
-    "@hono/zod-openapi": "^1.2.2",
+    "@hono/zod-openapi": "^1.3.0",
     "@hono/zod-validator": "^0.7.6",
     "discord-interactions": "^4.4.0",
-    "hono": "^4.12.0",
-    "zod": "^4.3.6"
+    "hono": "^4.12.17",
+    "zod": "^4.4.3"
   }
 }
