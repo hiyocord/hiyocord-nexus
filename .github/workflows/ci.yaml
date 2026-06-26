@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://npm.pkg.github.com
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('package-lock.json') }}
@@ -33,7 +33,7 @@ jobs:
         run: npm run build
         env:
           VITE_NEXUS_URL: ${{ secrets.NEXUS_URL }}
-      - uses: actions/cache/save@v5
+      - uses: actions/cache/save@v6
         with:
           path: packages/**/dist
           key: dist-${{ github.sha }}
@@ -47,11 +47,11 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: "node_modules"
           key: node_modules-${{ hashFiles('package-lock.json') }}
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         with:
           path: packages/**/dist
           key: dist-${{ github.sha }}
@@ -69,11 +69,11 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: "node_modules"
           key: node_modules-${{ hashFiles('package-lock.json') }}
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         with:
           path: packages/**/dist
           key: dist-${{ github.sha }}
@@ -119,11 +119,11 @@ jobs:
           registry-url: https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: "node_modules"
           key: node_modules-${{ hashFiles('package-lock.json') }}
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         with:
           path: packages/**/dist
           key: dist-${{ github.sha }}
