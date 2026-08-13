@@ -128,7 +128,7 @@ jobs:
           path: packages/**/dist
           key: dist-${{ github.sha }}
 
-      - uses: changesets/action@v2.0.0
+      - uses: changesets/action@v2.1.0
         with:
           publish: npx changeset publish
         env:
