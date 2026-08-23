@@ -1,0 +1,18 @@
+apiVersion: 1
+service:
+  id: hiyocord-nexus
+  name: Hiyocord Nexus
+  description: Central Discord interaction routing hub for the hiyocord project, powered by Cloudflare Workers.
+  kind: worker
+image: node:24
+install: npm ci
+build: npm run build
+env:
+  build:
+    - NODE_AUTH_TOKEN
+  runtime:
+    - DISCORD_BOT_TOKEN
+    - DISCORD_PUBLIC_KEY
+    - DISCORD_CLIENT_SECRET
+    - NEXUS_PRIVATE_KEY
+    - NEXUS_PUBLIC_KEY
